@@ -41,8 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="MyExcelBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\800Best.ExcelHelpCommon\800Best.ExcelHelpCommon.csproj">
+      <Project>{1594d304-420a-4acc-88b8-3423f2ccd1a2}</Project>
+      <Name>800Best.ExcelHelpCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\800Best.ExcelHelpDAL\800Best.ExcelHelpDAL.csproj">
+      <Project>{717f2a63-fd0a-4b72-af81-d3037fda2a22}</Project>
+      <Name>800Best.ExcelHelpDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\800Best.ExcelHelpModel\800Best.ExcelHelpModel.csproj">
+      <Project>{c5644f64-4dcc-416d-bbd0-fa5e5f5cdf13}</Project>
+      <Name>800Best.ExcelHelpModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

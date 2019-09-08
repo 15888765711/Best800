@@ -45,7 +45,7 @@
             this.lblStartRow = new System.Windows.Forms.Label();
             this.txtQ9Path = new System.Windows.Forms.TextBox();
             this.txtEndTime = new System.Windows.Forms.TextBox();
-            this.txtStart = new System.Windows.Forms.TextBox();
+            this.txtStartTime = new System.Windows.Forms.TextBox();
             this.lblQ9Path = new System.Windows.Forms.Label();
             this.lblStartTime = new System.Windows.Forms.Label();
             this.lblMergePath = new System.Windows.Forms.Label();
@@ -87,6 +87,7 @@
             this.btnAddTable.TabIndex = 1;
             this.btnAddTable.Text = "添加";
             this.btnAddTable.UseVisualStyleBackColor = true;
+            this.btnAddTable.Click += new System.EventHandler(this.BtnAddTable_Click);
             // 
             // btnDeleteTable
             // 
@@ -96,6 +97,7 @@
             this.btnDeleteTable.TabIndex = 2;
             this.btnDeleteTable.Text = "删除";
             this.btnDeleteTable.UseVisualStyleBackColor = true;
+            this.btnDeleteTable.Click += new System.EventHandler(this.BtnDeleteTable_Click);
             // 
             // btnClearTable
             // 
@@ -105,6 +107,7 @@
             this.btnClearTable.TabIndex = 3;
             this.btnClearTable.Text = "清空";
             this.btnClearTable.UseVisualStyleBackColor = true;
+            this.btnClearTable.Click += new System.EventHandler(this.BtnClearTable_Click);
             // 
             // btnScanMergePath
             // 
@@ -114,6 +117,7 @@
             this.btnScanMergePath.TabIndex = 4;
             this.btnScanMergePath.Text = "浏览";
             this.btnScanMergePath.UseVisualStyleBackColor = true;
+            this.btnScanMergePath.Click += new System.EventHandler(this.BtnScanMergePath_Click);
             // 
             // txtMergePath
             // 
@@ -130,6 +134,7 @@
             this.btnMergeTable.TabIndex = 9;
             this.btnMergeTable.Text = "合并";
             this.btnMergeTable.UseVisualStyleBackColor = true;
+            this.btnMergeTable.Click += new System.EventHandler(this.BtnMergeTable_Click);
             // 
             // txtFiled1
             // 
@@ -209,12 +214,12 @@
             this.txtEndTime.Size = new System.Drawing.Size(82, 21);
             this.txtEndTime.TabIndex = 21;
             // 
-            // txtStart
+            // txtStartTime
             // 
-            this.txtStart.Location = new System.Drawing.Point(343, 327);
-            this.txtStart.Name = "txtStart";
-            this.txtStart.Size = new System.Drawing.Size(82, 21);
-            this.txtStart.TabIndex = 20;
+            this.txtStartTime.Location = new System.Drawing.Point(343, 327);
+            this.txtStartTime.Name = "txtStartTime";
+            this.txtStartTime.Size = new System.Drawing.Size(82, 21);
+            this.txtStartTime.TabIndex = 20;
             // 
             // lblQ9Path
             // 
@@ -292,6 +297,7 @@
             this.btnQ9Path.TabIndex = 10;
             this.btnQ9Path.Text = "浏览";
             this.btnQ9Path.UseVisualStyleBackColor = true;
+            this.btnQ9Path.Click += new System.EventHandler(this.BtnQ9Path_Click);
             // 
             // btnCollectBagPath
             // 
@@ -301,6 +307,7 @@
             this.btnCollectBagPath.TabIndex = 11;
             this.btnCollectBagPath.Text = "浏览";
             this.btnCollectBagPath.UseVisualStyleBackColor = true;
+            this.btnCollectBagPath.Click += new System.EventHandler(this.BtnCollectBagPath_Click);
             // 
             // btnS9Path
             // 
@@ -310,6 +317,7 @@
             this.btnS9Path.TabIndex = 12;
             this.btnS9Path.Text = "浏览";
             this.btnS9Path.UseVisualStyleBackColor = true;
+            this.btnS9Path.Click += new System.EventHandler(this.BtnS9Path_Click);
             // 
             // btnUpLoadQ9
             // 
@@ -319,6 +327,7 @@
             this.btnUpLoadQ9.TabIndex = 13;
             this.btnUpLoadQ9.Text = "上传";
             this.btnUpLoadQ9.UseVisualStyleBackColor = true;
+            this.btnUpLoadQ9.Click += new System.EventHandler(this.BtnUpLoadQ9_Click);
             // 
             // btnUpLoadCollectBag
             // 
@@ -328,6 +337,7 @@
             this.btnUpLoadCollectBag.TabIndex = 14;
             this.btnUpLoadCollectBag.Text = "上传";
             this.btnUpLoadCollectBag.UseVisualStyleBackColor = true;
+            this.btnUpLoadCollectBag.Click += new System.EventHandler(this.BtnUpLoadCollectBag_Click);
             // 
             // btnUpLoadS9
             // 
@@ -337,6 +347,7 @@
             this.btnUpLoadS9.TabIndex = 15;
             this.btnUpLoadS9.Text = "上传";
             this.btnUpLoadS9.UseVisualStyleBackColor = true;
+            this.btnUpLoadS9.Click += new System.EventHandler(this.BtnUpLoadS9_Click);
             // 
             // btnUpLoadAll
             // 
@@ -346,6 +357,7 @@
             this.btnUpLoadAll.TabIndex = 17;
             this.btnUpLoadAll.Text = "全部上传并更新";
             this.btnUpLoadAll.UseVisualStyleBackColor = true;
+            this.btnUpLoadAll.Click += new System.EventHandler(this.BtnUpLoadAll_Click);
             // 
             // btnUpdateWeight
             // 
@@ -355,6 +367,7 @@
             this.btnUpdateWeight.TabIndex = 16;
             this.btnUpdateWeight.Text = "更新数据";
             this.btnUpdateWeight.UseVisualStyleBackColor = true;
+            this.btnUpdateWeight.Click += new System.EventHandler(this.BtnUpdateWeight_Click);
             // 
             // btnUpLoadTablePath
             // 
@@ -364,6 +377,7 @@
             this.btnUpLoadTablePath.TabIndex = 18;
             this.btnUpLoadTablePath.Text = "浏览";
             this.btnUpLoadTablePath.UseVisualStyleBackColor = true;
+            this.btnUpLoadTablePath.Click += new System.EventHandler(this.BtnUpLoadTablePath_Click);
             // 
             // btnExport
             // 
@@ -373,6 +387,7 @@
             this.btnExport.TabIndex = 19;
             this.btnExport.Text = "导出";
             this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
             // 
             // txtUpLoadTablePath
             // 
@@ -427,7 +442,7 @@
             this.Controls.Add(this.lblCollectBagPath);
             this.Controls.Add(this.lblQ9Path);
             this.Controls.Add(this.lblFiled1);
-            this.Controls.Add(this.txtStart);
+            this.Controls.Add(this.txtStartTime);
             this.Controls.Add(this.txtFiled3);
             this.Controls.Add(this.txtFiled2);
             this.Controls.Add(this.txtEndTime);
@@ -455,6 +470,7 @@
             this.Controls.Add(this.lbxSelectBox);
             this.Name = "FrmMain";
             this.Text = "百世结算帮助系统_MadeBy陈铭";
+            this.Load += new System.EventHandler(this.FrmMain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -479,7 +495,7 @@
         private System.Windows.Forms.Label lblStartRow;
         private System.Windows.Forms.TextBox txtQ9Path;
         private System.Windows.Forms.TextBox txtEndTime;
-        private System.Windows.Forms.TextBox txtStart;
+        private System.Windows.Forms.TextBox txtStartTime;
         private System.Windows.Forms.Label lblQ9Path;
         private System.Windows.Forms.Label lblStartTime;
         private System.Windows.Forms.Label lblMergePath;
