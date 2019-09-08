@@ -8,5 +8,7 @@ namespace _800Best.ExcelHelpModel
 {
     public class Class1
     {
+        
+        
     }
 }
