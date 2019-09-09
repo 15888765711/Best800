@@ -87,6 +87,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\800Best.ExcelHelpBLL\800Best.ExcelHelpBLL.csproj">
+      <Project>{7091c311-8bab-440b-940e-4aae6ce6f9f3}</Project>
+      <Name>800Best.ExcelHelpBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\800Best.ExcelHelpCommon\800Best.ExcelHelpCommon.csproj">
+      <Project>{1594d304-420a-4acc-88b8-3423f2ccd1a2}</Project>
+      <Name>800Best.ExcelHelpCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\800Best.ExcelHelpModel\800Best.ExcelHelpModel.csproj">
       <Project>{c5644f64-4dcc-416d-bbd0-fa5e5f5cdf13}</Project>
       <Name>800Best.ExcelHelpModel</Name>

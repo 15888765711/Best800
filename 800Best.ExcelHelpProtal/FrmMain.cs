@@ -1,4 +1,5 @@
-﻿using _800Best.ExcelHelpModel;
+﻿using _800Best.ExcelHelpBLL;
+using _800Best.ExcelHelpModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace _800Best.ExcelHelpProtal
    
     public partial class FrmMain : Form
     {
-        private readonly BLL bll = new BLL();
+        private readonly MyExcelBll bll = new  MyExcelBll();
         public FrmMain()
         {
             InitializeComponent();

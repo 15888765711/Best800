@@ -1,4 +1,5 @@
 ﻿using _800Best.ExcelHelpModel;
+using NPOI.SS.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -56,140 +57,110 @@ namespace _800Best.ExcelHelpDAL
                 string stringCellValue = cell.StringCellValue;
                 if (stringCellValue != null)
                 {
-                    switch (< PrivateImplementationDetails >.ComputeStringHash(stringCellValue))
+                    switch (stringCellValue)
                     {
-                        case 0x59827c1c:
-                            if (stringCellValue == "站点留仓率罚款")
-                            {
-                                if (cell.Row.GetCell(0) > null)
+                        case "站点留仓率罚款":
+                         
+                                if (cell.Row.GetCell(0) != null)
                                 {
                                     cell.Row.GetCell(4).SetCellValue(cell.Row.GetCell(0).StringCellValue);
                                     cell.Row.GetCell(0).SetCellValue("");
                                 }
                                 break;
-                            }
-                            break;
-
-                        case 0x5eeb6e5e:
-                            if (stringCellValue == "寄件派费")
-                            {
+                        case "寄件派费":
+                          
                                 if (numericCellValue > 0.0)
                                 {
                                     cell.SetCellValue("寄件派费调整");
                                 }
                                 break;
-                            }
-                            break;
+                         
 
-                        case 0x7ff87587:
-                            if (stringCellValue == "代转件费")
-                            {
+                        case "代转件费":
+                          
                                 if (numericCellValue > 0.0)
                                 {
                                     cell.SetCellValue("代转件费调整");
                                 }
-                                break;
-                            }
+                            
                             break;
 
-                        case 0x13cc9a60:
-                            if (stringCellValue == "中转费调整")
-                            {
+                        case "中转费调整":
+                          
                                 if (numericCellValue > 0.0)
                                 {
                                     cell.SetCellValue("中转费取消");
                                 }
                                 break;
-                            }
-                            break;
+                          
 
-                        case 0x4a7718d5:
-                            if (stringCellValue == "计重收费调整")
-                            {
+                        case "计重收费调整":
+                          
                                 if (numericCellValue < 0.0)
                                 {
                                     cell.SetCellValue("计重收费");
                                 }
                                 break;
-                            }
-                            break;
-
-                        case 0x4b2fa5b6:
-                            if (stringCellValue == "违禁品罚款")
-                            {
+                           
+                        case "违禁品罚款":
+                          
                                 cell.SetCellValue("航空违禁品罚款");
                                 break;
-                            }
-                            break;
+                           
 
-                        case 0x81c51a94:
-                            if (stringCellValue == "扣有偿中转调整")
-                            {
+                        case "扣有偿中转调整":
+                          
                                 if (numericCellValue > 0.0)
                                 {
                                     cell.SetCellValue("扣有偿中转取消");
                                 }
                                 break;
-                            }
-                            break;
+                           
 
-                        case 0x8a970d72:
-                            if (stringCellValue == "扫描费")
-                            {
+                        case "扫描费":
+                          
                                 cell.SetCellValue("扫描费调整");
                                 break;
-                            }
-                            break;
+                          
 
-                        case 0xa00b1140:
-                            if (stringCellValue == "短信服务费")
-                            {
-                                if (cell.Row.GetCell(0) > null)
+                        case "短信服务费":
+                            
+                                if (cell.Row.GetCell(0) != null)
                                 {
                                     cell.Row.GetCell(0).SetCellValue("");
                                 }
                                 break;
-                            }
-                            break;
+                         
 
-                        case 0xed7fa1bc:
-                            if (stringCellValue == "保价手续费")
-                            {
+                        case "保价手续费":
+                          
                                 cell.SetCellValue("手续费");
                                 break;
-                            }
-                            break;
+                           
 
-                        case 0xf94ef6aa:
-                            if (stringCellValue == "批货大货费")
-                            {
+                        case "批货大货费":
+                           
                                 cell.SetCellValue("大货费");
                                 break;
-                            }
-                            break;
-
-                        case 0xa7bca412:
-                            if (stringCellValue == "大货手续费")
-                            {
+                           
+                        case "大货手续费":
+                          
                                 if (numericCellValue > 0.0)
                                 {
                                     cell.SetCellValue("大货费调整");
                                 }
                                 break;
-                            }
-                            break;
+                         
 
-                        case 0xd5819bbf:
-                            if (stringCellValue == "错集率罚款")
-                            {
-                                if (cell.Row.GetCell(0) > null)
+                        case "错集率罚款":
+                          
+                                if (cell.Row.GetCell(0)!=null)
                                 {
                                     cell.Row.GetCell(4).SetCellValue(cell.Row.GetCell(0).StringCellValue);
                                     cell.Row.GetCell(0).SetCellValue("");
                                 }
                                 break;
-                            }
-                            break;
+                          
                     }
                 }
             }
