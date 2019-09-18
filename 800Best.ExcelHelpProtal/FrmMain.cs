@@ -12,10 +12,10 @@ using System.Windows.Forms;
 
 namespace _800Best.ExcelHelpProtal
 {
-   
+
     public partial class FrmMain : Form
     {
-        private readonly MyExcelBll bll = new  MyExcelBll();
+        private readonly MyExcelBll bll = new MyExcelBll();
         public FrmMain()
         {
             InitializeComponent();
@@ -23,10 +23,13 @@ namespace _800Best.ExcelHelpProtal
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-          
-                this.txtStartTime.Text = DateTime.Today.AddDays(-1.0).ToShortDateString();
-                this.txtEndTime.Text = DateTime.Today.ToShortDateString();
-            
+
+            this.txtStartTime.Text = DateTime.Today.AddDays(-1.0).ToShortDateString();
+            this.txtEndTime.Text = DateTime.Today.ToShortDateString();
+            this.txtFiled1.Text = "归属站点";
+            this.txtFiled2.Text = "重量";
+            this.txtStartRow.Text = "2";
+
 
         }
         /// <summary>
@@ -181,134 +184,135 @@ namespace _800Best.ExcelHelpProtal
         {
             SaveMyFileDialog(txtUpLoadTablePath);
         }
-        
+
         private void SaveMyFileDialog(TextBox textBox)
-        {    using (SaveFileDialog dialog = new SaveFileDialog
         {
-            AddExtension = true,
-            Filter = "(Excel文件)|*.xlsx"
-        })
+            using (SaveFileDialog dialog = new SaveFileDialog
             {
-                
+                AddExtension = true,
+                Filter = "(Excel文件)|*.xlsx"
+            })
+            {
+
                 if ((dialog.ShowDialog() == DialogResult.OK) && (dialog.FileName.Length > 0))
                 {
-                    textBox.Text= dialog.FileName;
+                    textBox.Text = dialog.FileName;
                 }
-                textBox.Text= null;
+                textBox.Text = null;
             }
         }
 
         private void BtnUpLoadQ9_Click(object sender, EventArgs e)
         {
-           
-                if (this.txtQ9Path.Text.Trim().Length != 0)
+
+            if (this.txtQ9Path.Text.Trim().Length != 0)
+            {
+                if (this.bll.UpLoadToDataBase(this.txtQ9Path.Text.Trim()))
                 {
-                    if (this.bll.UpLoadToDataBase(this.txtQ9Path.Text.Trim()))
-                    {
                     lblState.Text += "S9数据导入成功";
                     //MessageBox.Show("Q9数据导入成功");
-                    }
-                    else
-                    {
-                    lblState.Text += "S9数据导入成功";
-                    //MessageBox.Show("UI层提示失败");
-                    }
                 }
                 else
                 {
-                    MessageBox.Show("请输入Q9路径");
+                    lblState.Text += "S9数据导入成功";
+                    //MessageBox.Show("UI层提示失败");
                 }
-            
+            }
+            else
+            {
+                MessageBox.Show("请输入Q9路径");
+            }
+
 
         }
 
         private void BtnUpLoadS9_Click(object sender, EventArgs e)
         {
-       
-                if (this.txtS9Path.Text.Trim().Length != 0)
+
+            if (this.txtS9Path.Text.Trim().Length != 0)
+            {
+                if (this.bll.UpLoadCustomerToDataBase(this.txtS9Path.Text.Trim()))
                 {
-                    if (this.bll.UpLoadCustomerToDataBase(this.txtS9Path.Text.Trim()))
-                    {
 
                     lblState.Text += "S9数据导入成功";
-                    }
-                    else
-                    {
-                    lblState.Text += "UI层S9提示失败";
-                    }
                 }
                 else
                 {
-                    MessageBox.Show("请输入S9路径");
+                    lblState.Text += "UI层S9提示失败";
                 }
-            
+            }
+            else
+            {
+                MessageBox.Show("请输入S9路径");
+            }
+
 
         }
 
         private void BtnUpLoadCollectBag_Click(object sender, EventArgs e)
         {
-         
-                if (this.txtCollectBagPath.Text.Trim().Length != 0)
+
+            if (this.txtCollectBagPath.Text.Trim().Length != 0)
+            {
+                if (this.bll.UpLoadCollectBagToDataBase(this.txtCollectBagPath.Text.Trim()))
                 {
-                    if (this.bll.UpLoadCollectBagToDataBase(this.txtCollectBagPath.Text.Trim()))
-                    {
                     lblState.Text += "集包数据导入成功";
                     //MessageBox.Show("集包数据导入成功");
-                    }
-                    else
-                    {
-                    lblState.Text += "UI层集包提示失败";
-                    //MessageBox.Show("UI层提示失败");
-                    }
                 }
                 else
                 {
-                    MessageBox.Show("请输入集包路径");
+                    lblState.Text += "UI层集包提示失败";
+                    //MessageBox.Show("UI层提示失败");
                 }
-            
+            }
+            else
+            {
+                MessageBox.Show("请输入集包路径");
+            }
+
 
         }
 
         private void BtnUpdateWeight_Click(object sender, EventArgs e)
         {
-          
-                if (this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim())))
+
+            if (this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim())))
             {
                 lblState.Text += "重量更新成功";
-                    //MessageBox.Show("更新成功");
-                }
-                else
+                //MessageBox.Show("更新成功");
+            }
+            else
             {
                 lblState.Text += "重量更新失败";
-                    //MessageBox.Show("更新失败");
-                }
-            
+                //MessageBox.Show("更新失败");
+            }
+
 
         }
 
         private void BtnUpLoadAll_Click(object sender, EventArgs e)
         {
-            
-                this.BtnUpLoadQ9_Click(sender, e);
-                this.BtnUpLoadCollectBag_Click(sender, e);
-                this.BtnUpLoadS9_Click(sender, e);
-                this.BtnUpdateWeight_Click(sender, e);
-            
+
+            this.BtnUpLoadQ9_Click(sender, e);
+            this.BtnUpLoadCollectBag_Click(sender, e);
+            this.BtnUpLoadS9_Click(sender, e);
+            this.BtnUpdateWeight_Click(sender, e);
+
 
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
-            
-                if (((this.txtUpLoadTablePath.Text.Trim().Length == 0) || (this.txtEndTime.Text.Trim().Length == 0)) || (this.txtStartTime.Text.Trim().Length == 0))
-                {
-                    MessageBox.Show("请检查数据是否完整输入");
-                }
-                else if (this.bll.GetExportData(this.txtUpLoadTablePath.Text.Trim(), DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim())))
-                {
-                    MessageBox.Show("导出成功");
-                }
-            
+
+            if (((this.txtUpLoadTablePath.Text.Trim().Length == 0) || (this.txtEndTime.Text.Trim().Length == 0)) || (this.txtStartTime.Text.Trim().Length == 0))
+            {
+                MessageBox.Show("请检查数据是否完整输入");
+            }
+            else if (this.bll.GetExportData(this.txtUpLoadTablePath.Text.Trim(), DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim())))
+            {
+                MessageBox.Show("导出成功");
+            }
+
 
         }
     }
