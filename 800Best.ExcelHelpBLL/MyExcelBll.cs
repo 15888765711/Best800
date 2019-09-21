@@ -199,7 +199,7 @@ namespace _800Best.ExcelHelpBLL
 
             public bool UpLoadToDataBase(string upLoadFiles)
             {
-                if (File.Exists(upLoadFiles))
+                if (File.Exists(upLoadFiles))//判断是否存在
                 {
                     List<Cost> costList = MyExcelHelper.GetCostList(upLoadFiles);
                     if (costList == null)

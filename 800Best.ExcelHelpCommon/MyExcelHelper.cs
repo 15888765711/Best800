@@ -80,13 +80,13 @@ namespace _800Best.ExcelHelpCommon
             public static List<Cost> GetCostList(string file)
             {
                 string[] strArray = new string[] { "运单编号", "结算类型", "结算/上传日期", "结算流水号", "金额", "入账余额", "备注" };
-                IWorkbook workbook = WorkbookFactory.Create(file);
-                ISheet sheetAt = workbook.GetSheetAt(0);
+                IWorkbook workbook = WorkbookFactory.Create(file);//创建工作表
+                ISheet sheetAt = workbook.GetSheetAt(0);//创建工作薄
                 List<Cost> list = new List<Cost>();
-                int lastRowNum = sheetAt.LastRowNum;
-                int lastCellNum = sheetAt.GetRow(0).LastCellNum;
-                IRow row = sheetAt.GetRow(0);
-                int[] numArray = new int[strArray.Length];
+                int lastRowNum = sheetAt.LastRowNum;//最后一行
+                int lastCellNum = sheetAt.GetRow(0).LastCellNum;//最后一列
+                IRow row = sheetAt.GetRow(0);//标题行
+                int[] numArray = new int[strArray.Length];//字段头位置数组
                 for (int i = 0; i < strArray.Length; i++)
                 {
                     numArray[i] = -1;
