@@ -13,7 +13,11 @@ namespace _800Best.ExcelHelpDAL
 {
     public class MyExcelDal
     {
-
+        /// <summary>
+        /// 改变结算类型开始
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <returns></returns>
         public ISheet ChangeExcel(ISheet sheet)
         {
             IRow row = sheet.GetRow(0);
@@ -23,7 +27,7 @@ namespace _800Best.ExcelHelpDAL
                 int lastCellNum = row.LastCellNum;
                 int cellnum = -1;
                 int num4 = -1;
-                int num5 = 1;
+                int num5 = -1;
                 for (int i = 0; i < lastCellNum; i++)
                 {
                     if (row.GetCell(i).StringCellValue == "结算类型")
@@ -39,7 +43,7 @@ namespace _800Best.ExcelHelpDAL
                         num5 = i;
                     }
                 }
-                if ((num4 == -1) || (cellnum == -1))
+                if ((num4 == -1) || (cellnum == -1)||num5==-1)
                 {
                     return null;
                 }
@@ -51,7 +55,11 @@ namespace _800Best.ExcelHelpDAL
             }
             return sheet;
         }
-
+        /// <summary>
+        /// 修改结算类型-实现
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="numericCellValue"></param>
         private void ChangeExcelType(ICell cell, double numericCellValue)
         {
             string stringCellValue = cell.StringCellValue;
@@ -164,7 +172,12 @@ namespace _800Best.ExcelHelpDAL
                 }
             }
         }
-
+        /// <summary>
+        /// 根据单元格格式转换成对应c#格式
+        /// </summary>
+        /// <param name="myCell"></param>
+        /// <param name="cell"></param>
+        /// <param name="cellType"></param>
         private void CopyCell(ICell myCell, ICell cell, CellType cellType)
         {
             switch (cellType)
@@ -209,7 +222,14 @@ namespace _800Best.ExcelHelpDAL
                     break;
             }
         }
-
+        /// <summary>
+        /// 根据sql语句从数据库查询数据
+        /// </summary>
+        /// <param name="sheet">传入返回的表格</param>
+        /// <param name="sqlstr">sql语句</param>
+        /// <param name="starttime">参数开始时间</param>
+        /// <param name="endtime">参数结束时间</param>
+        /// <returns></returns>
         public ISheet GetSheet(ISheet sheet, string sqlstr, DateTime starttime, DateTime endtime)
         {
             SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@starttime", starttime), new SqlParameter("@endtime", endtime) };
@@ -229,7 +249,7 @@ namespace _800Best.ExcelHelpDAL
                         object obj2 = reader[k];
                         ICell cell = row2.CreateCell(k);
                         if (reader.GetName(k) == "结算金额")
-                        {
+                        {//包号扣费，公式计算
                             if ((sheet.SheetName == "包号扣费") && ((reader[k - 1].ToString() == "中转费") || (reader[k - 1].ToString() == "中转费调整")))
                             {
                                 string formula = string.Format("ROUND(F{0}/SUMIFS(H:H,C:C,C{0},E:E,E{0})*H{0},2)", j + 1);
@@ -253,7 +273,11 @@ namespace _800Best.ExcelHelpDAL
             }
             return sheet;
         }
-
+        /// <summary>
+        /// 制作汇总表
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <returns></returns>
         public ISheet GetSummarySheet(ISheet sheet)
         {
             IRow row = sheet.CreateRow(1);
@@ -297,7 +321,14 @@ namespace _800Best.ExcelHelpDAL
             sheet.CreateRow(11).CreateCell(8).SetCellValue(DateTime.Today.AddDays(-1.0).ToShortDateString());
             return sheet;
         }
-
+        /// <summary>
+        /// 合并表格
+        /// </summary>
+        /// <param name="myExcel">表格数据model</param>
+        /// <param name="mySheet">传入和返回的工作薄</param>
+        /// <param name="dataSouceFileNames">源数据路径</param>
+        /// <param name="isAddFilename">是否加标题</param>
+        /// <returns></returns>
         public ISheet MergeExcel(MyExcel myExcel, ISheet mySheet, string dataSouceFileNames, bool isAddFilename)
         {
             int count = myExcel.AddFileNames.Count;
@@ -358,7 +389,11 @@ namespace _800Best.ExcelHelpDAL
             }
             return mySheet;
         }
-
+        /// <summary>
+        /// 更新重量
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
         public int UpdateData(DateTime dateTime)
         {
             string sql = "pro_checkHeight";
@@ -370,7 +405,11 @@ namespace _800Best.ExcelHelpDAL
             sp[0] = parameter1;
             return SqlHelper.ExecuteNonQuery(sql, CommandType.StoredProcedure, sp);
         }
-
+        /// <summary>
+        /// 集包数据上传
+        /// </summary>
+        /// <param name="collectlist"></param>
+        /// <returns></returns>
         public bool UploadCollectBagtoDataBase(List<CollectPackBag> collectlist)
         {
             string sql = "insert into collecbags values( @ScanSite, @ScanType, @BagID, @ID, @ScanPeople, @ScanTime, @RecordTime, @Weight, @DestinationProvince, @DestinationCity, @Site);";
@@ -398,7 +437,11 @@ namespace _800Best.ExcelHelpDAL
             }
             return true;
         }
-
+        /// <summary>
+        /// 扣费数据上传
+        /// </summary>
+        /// <param name="costlist"></param>
+        /// <returns></returns>
         public bool UploadCosttoDataBase(List<Cost> costlist)
         {
             string sql = "insert into cost values( @costID, @costtype, @time, @costnum, @amount, @amounttype, @remark);";
@@ -421,7 +464,11 @@ namespace _800Best.ExcelHelpDAL
             }
             return true;
         }
-
+        /// <summary>
+        /// 订单数据上传
+        /// </summary>
+        /// <param name="costlist"></param>
+        /// <returns></returns>
         public bool UploadCustomertoDataBase(List<Customer> costlist)
         {
             string sql = "insert into customer values( @Date, @ID, @Address1, @Address2, @Address3, @Weight, @Site, @WeightFenbo, @WeightJisancan, @WeightYiji, @WeightErji,@WeightJipao);";
