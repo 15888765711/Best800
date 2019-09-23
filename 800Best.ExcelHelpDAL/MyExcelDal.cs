@@ -76,92 +76,58 @@ namespace _800Best.ExcelHelpDAL
                         }
                         break;
                     case "寄件派费":
-
                         if (numericCellValue > 0.0)
-                        {
-                            cell.SetCellValue("寄件派费调整");
-                        }
+                        { cell.SetCellValue("寄件派费调整"); }
                         break;
-
-
                     case "代转件费":
-
                         if (numericCellValue > 0.0)
                         {
                             cell.SetCellValue("代转件费调整");
                         }
-
                         break;
-
                     case "中转费调整":
-
                         if (numericCellValue > 0.0)
                         {
                             cell.SetCellValue("中转费取消");
                         }
                         break;
-
-
                     case "计重收费调整":
-
                         if (numericCellValue < 0.0)
                         {
                             cell.SetCellValue("计重收费");
                         }
                         break;
-
                     case "违禁品罚款":
-
                         cell.SetCellValue("航空违禁品罚款");
                         break;
-
-
                     case "扣有偿中转调整":
-
                         if (numericCellValue > 0.0)
                         {
                             cell.SetCellValue("扣有偿中转取消");
                         }
                         break;
-
-
                     case "扫描费":
-
                         cell.SetCellValue("扫描费调整");
                         break;
-
-
                     case "短信服务费":
-
                         if (cell.Row.GetCell(0) != null)
                         {
                             cell.Row.GetCell(0).SetCellValue("");
                         }
                         break;
-
-
                     case "保价手续费":
-
                         cell.SetCellValue("手续费");
                         break;
-
-
                     case "批货大货费":
-
                         cell.SetCellValue("大货费");
                         break;
-
                     case "大货手续费":
-
                         if (numericCellValue > 0.0)
                         {
                             cell.SetCellValue("大货费调整");
                         }
                         break;
-
-
                     case "错集率罚款":
-
                         if (cell.Row.GetCell(0) != null)
                         {
                             cell.Row.GetCell(4).SetCellValue(cell.Row.GetCell(0).StringCellValue);

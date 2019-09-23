@@ -187,18 +187,21 @@ namespace _800Best.ExcelHelpProtal
 
         private void SaveMyFileDialog(TextBox textBox)
         {
-            using (SaveFileDialog dialog = new SaveFileDialog
-            {
+            using (SaveFileDialog dialog = new SaveFileDialog{
                 AddExtension = true,
-                Filter = "(Excel文件)|*.xlsx"
-            })
+                Filter = "(Excel文件)|*.xlsx"})
             {
 
                 if ((dialog.ShowDialog() == DialogResult.OK) && (dialog.FileName.Length > 0))
                 {
                     textBox.Text = dialog.FileName;
                 }
-                textBox.Text = null;
+                else
+                {
+                    textBox.Text = null;
+
+                }
+                
             }
         }
 
