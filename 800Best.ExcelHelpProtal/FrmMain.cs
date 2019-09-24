@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -317,6 +318,21 @@ namespace _800Best.ExcelHelpProtal
             }
 
 
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(txtUpLoadTablePath.Text))
+            {
+                MessageBox.Show("请确定修改表格是否存在！");
+                return;
+            }
+            bool isSuccess=this.bll.ChangeExcel(txtUpLoadTablePath.Text);
+            if (isSuccess)
+            {
+                lblState.Text += "修改数据成功"+DateTime.Now.ToShortTimeString();
+            
+            }
         }
     }
 }

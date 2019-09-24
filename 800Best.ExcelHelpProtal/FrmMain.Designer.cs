@@ -68,6 +68,7 @@
             this.lblUpLoadTablePath = new System.Windows.Forms.Label();
             this.lblEndTime = new System.Windows.Forms.Label();
             this.lblState = new System.Windows.Forms.Label();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbxSelectBox
@@ -76,12 +77,12 @@
             this.lbxSelectBox.ItemHeight = 12;
             this.lbxSelectBox.Location = new System.Drawing.Point(12, 32);
             this.lbxSelectBox.Name = "lbxSelectBox";
-            this.lbxSelectBox.Size = new System.Drawing.Size(203, 160);
+            this.lbxSelectBox.Size = new System.Drawing.Size(234, 160);
             this.lbxSelectBox.TabIndex = 0;
             // 
             // btnAddTable
             // 
-            this.btnAddTable.Location = new System.Drawing.Point(221, 32);
+            this.btnAddTable.Location = new System.Drawing.Point(252, 32);
             this.btnAddTable.Name = "btnAddTable";
             this.btnAddTable.Size = new System.Drawing.Size(75, 23);
             this.btnAddTable.TabIndex = 1;
@@ -91,7 +92,7 @@
             // 
             // btnDeleteTable
             // 
-            this.btnDeleteTable.Location = new System.Drawing.Point(221, 61);
+            this.btnDeleteTable.Location = new System.Drawing.Point(252, 61);
             this.btnDeleteTable.Name = "btnDeleteTable";
             this.btnDeleteTable.Size = new System.Drawing.Size(75, 23);
             this.btnDeleteTable.TabIndex = 2;
@@ -101,7 +102,7 @@
             // 
             // btnClearTable
             // 
-            this.btnClearTable.Location = new System.Drawing.Point(221, 90);
+            this.btnClearTable.Location = new System.Drawing.Point(252, 90);
             this.btnClearTable.Name = "btnClearTable";
             this.btnClearTable.Size = new System.Drawing.Size(75, 23);
             this.btnClearTable.TabIndex = 3;
@@ -111,7 +112,7 @@
             // 
             // btnScanMergePath
             // 
-            this.btnScanMergePath.Location = new System.Drawing.Point(221, 221);
+            this.btnScanMergePath.Location = new System.Drawing.Point(251, 221);
             this.btnScanMergePath.Name = "btnScanMergePath";
             this.btnScanMergePath.Size = new System.Drawing.Size(75, 23);
             this.btnScanMergePath.TabIndex = 4;
@@ -123,12 +124,12 @@
             // 
             this.txtMergePath.Location = new System.Drawing.Point(12, 221);
             this.txtMergePath.Name = "txtMergePath";
-            this.txtMergePath.Size = new System.Drawing.Size(203, 21);
+            this.txtMergePath.Size = new System.Drawing.Size(233, 21);
             this.txtMergePath.TabIndex = 30;
             // 
             // btnMergeTable
             // 
-            this.btnMergeTable.Location = new System.Drawing.Point(221, 327);
+            this.btnMergeTable.Location = new System.Drawing.Point(252, 327);
             this.btnMergeTable.Name = "btnMergeTable";
             this.btnMergeTable.Size = new System.Drawing.Size(75, 23);
             this.btnMergeTable.TabIndex = 9;
@@ -202,21 +203,21 @@
             // 
             // txtQ9Path
             // 
-            this.txtQ9Path.Location = new System.Drawing.Point(343, 32);
+            this.txtQ9Path.Location = new System.Drawing.Point(342, 32);
             this.txtQ9Path.Name = "txtQ9Path";
-            this.txtQ9Path.Size = new System.Drawing.Size(203, 21);
+            this.txtQ9Path.Size = new System.Drawing.Size(227, 21);
             this.txtQ9Path.TabIndex = 22;
             // 
             // txtEndTime
             // 
-            this.txtEndTime.Location = new System.Drawing.Point(448, 327);
+            this.txtEndTime.Location = new System.Drawing.Point(450, 291);
             this.txtEndTime.Name = "txtEndTime";
             this.txtEndTime.Size = new System.Drawing.Size(82, 21);
             this.txtEndTime.TabIndex = 21;
             // 
             // txtStartTime
             // 
-            this.txtStartTime.Location = new System.Drawing.Point(343, 327);
+            this.txtStartTime.Location = new System.Drawing.Point(345, 291);
             this.txtStartTime.Name = "txtStartTime";
             this.txtStartTime.Size = new System.Drawing.Size(82, 21);
             this.txtStartTime.TabIndex = 20;
@@ -224,7 +225,7 @@
             // lblQ9Path
             // 
             this.lblQ9Path.AutoSize = true;
-            this.lblQ9Path.Location = new System.Drawing.Point(341, 13);
+            this.lblQ9Path.Location = new System.Drawing.Point(364, 13);
             this.lblQ9Path.Name = "lblQ9Path";
             this.lblQ9Path.Size = new System.Drawing.Size(125, 12);
             this.lblQ9Path.TabIndex = 31;
@@ -233,7 +234,7 @@
             // lblStartTime
             // 
             this.lblStartTime.AutoSize = true;
-            this.lblStartTime.Location = new System.Drawing.Point(341, 304);
+            this.lblStartTime.Location = new System.Drawing.Point(343, 268);
             this.lblStartTime.Name = "lblStartTime";
             this.lblStartTime.Size = new System.Drawing.Size(65, 12);
             this.lblStartTime.TabIndex = 23;
@@ -259,15 +260,15 @@
             // 
             // txtCollectBagPath
             // 
-            this.txtCollectBagPath.Location = new System.Drawing.Point(343, 84);
+            this.txtCollectBagPath.Location = new System.Drawing.Point(342, 84);
             this.txtCollectBagPath.Name = "txtCollectBagPath";
-            this.txtCollectBagPath.Size = new System.Drawing.Size(203, 21);
+            this.txtCollectBagPath.Size = new System.Drawing.Size(227, 21);
             this.txtCollectBagPath.TabIndex = 22;
             // 
             // lblCollectBagPath
             // 
             this.lblCollectBagPath.AutoSize = true;
-            this.lblCollectBagPath.Location = new System.Drawing.Point(341, 65);
+            this.lblCollectBagPath.Location = new System.Drawing.Point(364, 65);
             this.lblCollectBagPath.Name = "lblCollectBagPath";
             this.lblCollectBagPath.Size = new System.Drawing.Size(113, 12);
             this.lblCollectBagPath.TabIndex = 29;
@@ -275,15 +276,15 @@
             // 
             // txtS9Path
             // 
-            this.txtS9Path.Location = new System.Drawing.Point(343, 138);
+            this.txtS9Path.Location = new System.Drawing.Point(342, 138);
             this.txtS9Path.Name = "txtS9Path";
-            this.txtS9Path.Size = new System.Drawing.Size(203, 21);
+            this.txtS9Path.Size = new System.Drawing.Size(227, 21);
             this.txtS9Path.TabIndex = 22;
             // 
             // lblS9Path
             // 
             this.lblS9Path.AutoSize = true;
-            this.lblS9Path.Location = new System.Drawing.Point(341, 119);
+            this.lblS9Path.Location = new System.Drawing.Point(364, 119);
             this.lblS9Path.Name = "lblS9Path";
             this.lblS9Path.Size = new System.Drawing.Size(101, 12);
             this.lblS9Path.TabIndex = 27;
@@ -291,7 +292,7 @@
             // 
             // btnQ9Path
             // 
-            this.btnQ9Path.Location = new System.Drawing.Point(552, 32);
+            this.btnQ9Path.Location = new System.Drawing.Point(575, 32);
             this.btnQ9Path.Name = "btnQ9Path";
             this.btnQ9Path.Size = new System.Drawing.Size(47, 23);
             this.btnQ9Path.TabIndex = 10;
@@ -301,7 +302,7 @@
             // 
             // btnCollectBagPath
             // 
-            this.btnCollectBagPath.Location = new System.Drawing.Point(552, 82);
+            this.btnCollectBagPath.Location = new System.Drawing.Point(575, 82);
             this.btnCollectBagPath.Name = "btnCollectBagPath";
             this.btnCollectBagPath.Size = new System.Drawing.Size(47, 23);
             this.btnCollectBagPath.TabIndex = 11;
@@ -311,7 +312,7 @@
             // 
             // btnS9Path
             // 
-            this.btnS9Path.Location = new System.Drawing.Point(552, 136);
+            this.btnS9Path.Location = new System.Drawing.Point(575, 136);
             this.btnS9Path.Name = "btnS9Path";
             this.btnS9Path.Size = new System.Drawing.Size(47, 23);
             this.btnS9Path.TabIndex = 12;
@@ -321,7 +322,7 @@
             // 
             // btnUpLoadQ9
             // 
-            this.btnUpLoadQ9.Location = new System.Drawing.Point(605, 32);
+            this.btnUpLoadQ9.Location = new System.Drawing.Point(628, 32);
             this.btnUpLoadQ9.Name = "btnUpLoadQ9";
             this.btnUpLoadQ9.Size = new System.Drawing.Size(47, 23);
             this.btnUpLoadQ9.TabIndex = 13;
@@ -331,7 +332,7 @@
             // 
             // btnUpLoadCollectBag
             // 
-            this.btnUpLoadCollectBag.Location = new System.Drawing.Point(605, 82);
+            this.btnUpLoadCollectBag.Location = new System.Drawing.Point(628, 82);
             this.btnUpLoadCollectBag.Name = "btnUpLoadCollectBag";
             this.btnUpLoadCollectBag.Size = new System.Drawing.Size(47, 23);
             this.btnUpLoadCollectBag.TabIndex = 14;
@@ -341,7 +342,7 @@
             // 
             // btnUpLoadS9
             // 
-            this.btnUpLoadS9.Location = new System.Drawing.Point(605, 136);
+            this.btnUpLoadS9.Location = new System.Drawing.Point(628, 136);
             this.btnUpLoadS9.Name = "btnUpLoadS9";
             this.btnUpLoadS9.Size = new System.Drawing.Size(47, 23);
             this.btnUpLoadS9.TabIndex = 15;
@@ -351,7 +352,7 @@
             // 
             // btnUpLoadAll
             // 
-            this.btnUpLoadAll.Location = new System.Drawing.Point(530, 219);
+            this.btnUpLoadAll.Location = new System.Drawing.Point(489, 180);
             this.btnUpLoadAll.Name = "btnUpLoadAll";
             this.btnUpLoadAll.Size = new System.Drawing.Size(122, 23);
             this.btnUpLoadAll.TabIndex = 17;
@@ -361,7 +362,7 @@
             // 
             // btnUpdateWeight
             // 
-            this.btnUpdateWeight.Location = new System.Drawing.Point(605, 180);
+            this.btnUpdateWeight.Location = new System.Drawing.Point(628, 180);
             this.btnUpdateWeight.Name = "btnUpdateWeight";
             this.btnUpdateWeight.Size = new System.Drawing.Size(47, 23);
             this.btnUpdateWeight.TabIndex = 16;
@@ -371,7 +372,7 @@
             // 
             // btnUpLoadTablePath
             // 
-            this.btnUpLoadTablePath.Location = new System.Drawing.Point(552, 274);
+            this.btnUpLoadTablePath.Location = new System.Drawing.Point(575, 238);
             this.btnUpLoadTablePath.Name = "btnUpLoadTablePath";
             this.btnUpLoadTablePath.Size = new System.Drawing.Size(47, 23);
             this.btnUpLoadTablePath.TabIndex = 18;
@@ -381,7 +382,7 @@
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(605, 274);
+            this.btnExport.Location = new System.Drawing.Point(628, 238);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(47, 23);
             this.btnExport.TabIndex = 19;
@@ -391,15 +392,15 @@
             // 
             // txtUpLoadTablePath
             // 
-            this.txtUpLoadTablePath.Location = new System.Drawing.Point(343, 276);
+            this.txtUpLoadTablePath.Location = new System.Drawing.Point(342, 240);
             this.txtUpLoadTablePath.Name = "txtUpLoadTablePath";
-            this.txtUpLoadTablePath.Size = new System.Drawing.Size(203, 21);
+            this.txtUpLoadTablePath.Size = new System.Drawing.Size(227, 21);
             this.txtUpLoadTablePath.TabIndex = 22;
             // 
             // lblUpLoadTablePath
             // 
             this.lblUpLoadTablePath.AutoSize = true;
-            this.lblUpLoadTablePath.Location = new System.Drawing.Point(341, 257);
+            this.lblUpLoadTablePath.Location = new System.Drawing.Point(364, 221);
             this.lblUpLoadTablePath.Name = "lblUpLoadTablePath";
             this.lblUpLoadTablePath.Size = new System.Drawing.Size(113, 12);
             this.lblUpLoadTablePath.TabIndex = 24;
@@ -408,7 +409,7 @@
             // lblEndTime
             // 
             this.lblEndTime.AutoSize = true;
-            this.lblEndTime.Location = new System.Drawing.Point(446, 304);
+            this.lblEndTime.Location = new System.Drawing.Point(448, 268);
             this.lblEndTime.Name = "lblEndTime";
             this.lblEndTime.Size = new System.Drawing.Size(101, 12);
             this.lblEndTime.TabIndex = 23;
@@ -417,17 +418,27 @@
             // lblState
             // 
             this.lblState.AutoSize = true;
-            this.lblState.Location = new System.Drawing.Point(341, 185);
+            this.lblState.Location = new System.Drawing.Point(343, 327);
             this.lblState.Name = "lblState";
             this.lblState.Size = new System.Drawing.Size(41, 12);
             this.lblState.TabIndex = 25;
             this.lblState.Text = "状态：";
             // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(628, 279);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(47, 23);
+            this.btnEdit.TabIndex = 19;
+            this.btnEdit.Text = "修改";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(691, 382);
+            this.ClientSize = new System.Drawing.Size(691, 420);
             this.Controls.Add(this.lblSelectTable);
             this.Controls.Add(this.lblMergePath);
             this.Controls.Add(this.lblFiled2);
@@ -454,6 +465,7 @@
             this.Controls.Add(this.txtQ9Path);
             this.Controls.Add(this.txtMergePath);
             this.Controls.Add(this.btnUpdateWeight);
+            this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.btnUpLoadAll);
             this.Controls.Add(this.btnUpLoadTablePath);
@@ -518,6 +530,7 @@
         private System.Windows.Forms.Label lblUpLoadTablePath;
         private System.Windows.Forms.Label lblEndTime;
         private System.Windows.Forms.Label lblState;
+        private System.Windows.Forms.Button btnEdit;
     }
 }
 
