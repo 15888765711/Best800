@@ -67,14 +67,7 @@ namespace _800Best.ExcelHelpDAL
             {
                 switch (stringCellValue)
                 {
-                    case "站点留仓率罚款":
 
-                        if (cell.Row.GetCell(0) != null)
-                        {
-                            cell.Row.GetCell(4).SetCellValue(cell.Row.GetCell(0).StringCellValue);
-                            cell.Row.GetCell(0).SetCellValue("");
-                        }
-                        break;
                     case "寄件派费":
                         if (numericCellValue > 0.0)
                         { cell.SetCellValue("寄件派费调整"); }
@@ -108,13 +101,7 @@ namespace _800Best.ExcelHelpDAL
                         break;
                     case "扫描费":
                         cell.SetCellValue("扫描费调整");
-                        break;
-                    case "短信服务费":
-                        if (cell.Row.GetCell(0) != null)
-                        {
-                            cell.Row.GetCell(0).SetCellValue("");
-                        }
-                        break;
+                        break;                   
                     case "保价手续费":
                         cell.SetCellValue("手续费");
                         break;
@@ -128,6 +115,9 @@ namespace _800Best.ExcelHelpDAL
                         }
                         break;
                     case "错集率罚款":
+                    case "短信服务费":
+                    case "环保袋滞留费":
+                    case "站点留仓率罚款":
                         if (cell.Row.GetCell(0) != null)
                         {
                             cell.Row.GetCell(4).SetCellValue(cell.Row.GetCell(0).StringCellValue);

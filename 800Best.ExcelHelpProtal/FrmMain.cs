@@ -301,7 +301,7 @@ namespace _800Best.ExcelHelpProtal
             this.BtnUpLoadQ9_Click(sender, e);
             this.BtnUpLoadCollectBag_Click(sender, e);
             this.BtnUpLoadS9_Click(sender, e);
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
             this.BtnUpdateWeight_Click(sender, e);
 
 
