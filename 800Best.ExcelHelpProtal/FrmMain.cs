@@ -214,12 +214,12 @@ namespace _800Best.ExcelHelpProtal
             {
                 if (this.bll.UpLoadToDataBase(this.txtQ9Path.Text.Trim()))
                 {
-                    lblState.Text += "S9数据导入成功";
+                    lblState.Text += "\r\nS9数据导入成功";
                     //MessageBox.Show("Q9数据导入成功");
                 }
                 else
                 {
-                    lblState.Text += "S9数据导入成功";
+                    lblState.Text += "\r\nS9数据导入成功";
                     //MessageBox.Show("UI层提示失败");
                 }
             }
@@ -239,11 +239,11 @@ namespace _800Best.ExcelHelpProtal
                 if (this.bll.UpLoadCustomerToDataBase(this.txtS9Path.Text.Trim()))
                 {
 
-                    lblState.Text += "S9数据导入成功";
+                    lblState.Text += "\r\nS9数据导入成功";
                 }
                 else
                 {
-                    lblState.Text += "UI层S9提示失败";
+                    lblState.Text += "\r\nUI层S9提示失败";
                 }
             }
             else
@@ -261,12 +261,12 @@ namespace _800Best.ExcelHelpProtal
             {
                 if (this.bll.UpLoadCollectBagToDataBase(this.txtCollectBagPath.Text.Trim()))
                 {
-                    lblState.Text += "集包数据导入成功";
+                    lblState.Text += "\r\n集包数据导入成功";
                     //MessageBox.Show("集包数据导入成功");
                 }
                 else
                 {
-                    lblState.Text += "UI层集包提示失败";
+                    lblState.Text += "\r\nUI层集包提示失败";
                     //MessageBox.Show("UI层提示失败");
                 }
             }
@@ -283,12 +283,12 @@ namespace _800Best.ExcelHelpProtal
 
             if (this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim())))
             {
-                lblState.Text += "重量更新成功";
+                lblState.Text += "\r\n重量更新成功";
                 //MessageBox.Show("更新成功");
             }
             else
             {
-                lblState.Text += "重量更新失败";
+                lblState.Text += "\r\n重量更新失败";
                 //MessageBox.Show("更新失败");
             }
 
@@ -332,7 +332,7 @@ namespace _800Best.ExcelHelpProtal
             bool isSuccess=this.bll.ChangeExcel(txtUpLoadTablePath.Text);
             if (isSuccess)
             {
-                lblState.Text += "修改数据成功"+DateTime.Now.ToShortTimeString();
+                lblState.Text += "\r\n修改数据成功" + DateTime.Now.ToShortTimeString();
             
             }
         }
