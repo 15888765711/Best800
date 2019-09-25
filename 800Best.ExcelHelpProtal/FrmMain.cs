@@ -324,7 +324,7 @@ namespace _800Best.ExcelHelpProtal
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (File.Exists(txtUpLoadTablePath.Text))
+            if (!File.Exists(txtUpLoadTablePath.Text))
             {
                 MessageBox.Show("请确定修改表格是否存在！");
                 return;
