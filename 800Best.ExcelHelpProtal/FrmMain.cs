@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -300,6 +301,7 @@ namespace _800Best.ExcelHelpProtal
             this.BtnUpLoadQ9_Click(sender, e);
             this.BtnUpLoadCollectBag_Click(sender, e);
             this.BtnUpLoadS9_Click(sender, e);
+            Thread.Sleep(1000);
             this.BtnUpdateWeight_Click(sender, e);
 
 
