@@ -118,6 +118,9 @@ namespace _800Best.ExcelHelpDAL
                     case "短信服务费":
                     case "环保袋滞留费":
                     case "站点留仓率罚款":
+                    case "菜鸟及时揽收率罚款":
+                    case "我要寄百世爽约率考核罚款":
+                        //我要寄百世爽约率考核罚款
                         if (cell.Row.GetCell(0) != null)
                         {
                             cell.Row.GetCell(4).SetCellValue(cell.Row.GetCell(0).StringCellValue);

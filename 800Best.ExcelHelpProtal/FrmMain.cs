@@ -189,9 +189,11 @@ namespace _800Best.ExcelHelpProtal
 
         private void SaveMyFileDialog(TextBox textBox)
         {
-            using (SaveFileDialog dialog = new SaveFileDialog{
+            using (SaveFileDialog dialog = new SaveFileDialog
+            {
                 AddExtension = true,
-                Filter = "(Excel文件)|*.xlsx"})
+                Filter = "(Excel文件)|*.xlsx"
+            })
             {
 
                 if ((dialog.ShowDialog() == DialogResult.OK) && (dialog.FileName.Length > 0))
@@ -203,7 +205,7 @@ namespace _800Best.ExcelHelpProtal
                     textBox.Text = null;
 
                 }
-                
+
             }
         }
 
@@ -329,11 +331,11 @@ namespace _800Best.ExcelHelpProtal
                 MessageBox.Show("请确定修改表格是否存在！");
                 return;
             }
-            bool isSuccess=this.bll.ChangeExcel(txtUpLoadTablePath.Text);
+            bool isSuccess = this.bll.ChangeExcel(txtUpLoadTablePath.Text);
             if (isSuccess)
             {
                 lblState.Text += "\r\n修改数据成功" + DateTime.Now.ToShortTimeString();
-            
+
             }
         }
     }
