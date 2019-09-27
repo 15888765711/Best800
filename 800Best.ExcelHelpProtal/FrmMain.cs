@@ -25,13 +25,18 @@ namespace _800Best.ExcelHelpProtal
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-
+            //I:\work\百世南白象\S9数据\
+            string dateStr = DateTime.Today.AddDays(-1).ToString("MMdd");
             this.txtStartTime.Text = DateTime.Today.AddDays(-1.0).ToShortDateString();
             this.txtEndTime.Text = DateTime.Today.ToShortDateString();
             this.txtFiled1.Text = "归属站点";
             this.txtFiled2.Text = "重量";
             this.txtStartRow.Text = "2";
-
+            this.txtMergePath.Text =String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx",dateStr);
+            this.txtQ9Path.Text = String.Format(@"I:\work\百世南白象\Q9数据\{0}\{0}q9.xlsx", dateStr);
+            this.txtCollectBagPath.Text = String.Format(@"I:\work\百世南白象\集包数据\{0}\{0}jb.xlsx", dateStr);
+            this.txtUpLoadTablePath.Text = String.Format(@"I:\work\百世南白象\上传数据\{0}\{0}.xlsx", dateStr);
+            this.txtS9Path.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
 
         }
         /// <summary>
@@ -213,10 +218,10 @@ namespace _800Best.ExcelHelpProtal
         {
 
             if (this.txtQ9Path.Text.Trim().Length != 0)
-            {
-                if (this.bll.UpLoadToDataBase(this.txtQ9Path.Text.Trim()))
+            { int resultRows = this.bll.UpLoadToDataBase(this.txtQ9Path.Text.Trim());
+                if (resultRows>0)
                 {
-                    lblState.Text += "\r\nS9数据导入成功";
+                    lblState.Text += "\r\nS9数据成功导入";
                     //MessageBox.Show("Q9数据导入成功");
                 }
                 else
@@ -237,11 +242,11 @@ namespace _800Best.ExcelHelpProtal
         {
 
             if (this.txtS9Path.Text.Trim().Length != 0)
-            {
-                if (this.bll.UpLoadCustomerToDataBase(this.txtS9Path.Text.Trim()))
+            { int resultRows = this.bll.UpLoadCustomerToDataBase(this.txtS9Path.Text.Trim());
+                if (resultRows>0)
                 {
 
-                    lblState.Text += "\r\nS9数据导入成功";
+                    lblState.Text += "\r\nS9数据成功导入"+resultRows+"行";
                 }
                 else
                 {
@@ -260,10 +265,10 @@ namespace _800Best.ExcelHelpProtal
         {
 
             if (this.txtCollectBagPath.Text.Trim().Length != 0)
-            {
-                if (this.bll.UpLoadCollectBagToDataBase(this.txtCollectBagPath.Text.Trim()))
+            { int resultRows = this.bll.UpLoadCollectBagToDataBase(this.txtCollectBagPath.Text.Trim());
+                if (resultRows>0)
                 {
-                    lblState.Text += "\r\n集包数据导入成功";
+                    lblState.Text += "\r\n集包数据成功导入" + resultRows+"行";
                     //MessageBox.Show("集包数据导入成功");
                 }
                 else
@@ -283,15 +288,14 @@ namespace _800Best.ExcelHelpProtal
         private void BtnUpdateWeight_Click(object sender, EventArgs e)
         {
 
-            if (this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim())))
+            int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()));
+            if (resultRows > 0)
             {
-                lblState.Text += "\r\n重量更新成功";
-                //MessageBox.Show("更新成功");
+                lblState.Text += "\r\n重量更新成功,影响行数：" + resultRows;
             }
             else
             {
                 lblState.Text += "\r\n重量更新失败";
-                //MessageBox.Show("更新失败");
             }
 
 
@@ -304,7 +308,15 @@ namespace _800Best.ExcelHelpProtal
             this.BtnUpLoadCollectBag_Click(sender, e);
             this.BtnUpLoadS9_Click(sender, e);
             Thread.Sleep(100);
-            this.BtnUpdateWeight_Click(sender, e);
+            int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()));
+            if (resultRows>0)
+            {
+                lblState.Text += "\r\n重量更新成功,返回结果："+ resultRows;
+            }
+            else
+            {
+                lblState.Text += "\r\n重量更新失败";
+            }
 
 
         }

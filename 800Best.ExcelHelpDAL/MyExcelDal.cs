@@ -120,6 +120,9 @@ namespace _800Best.ExcelHelpDAL
                     case "站点留仓率罚款":
                     case "菜鸟及时揽收率罚款":
                     case "我要寄百世爽约率考核罚款":
+                    case "计重收费返款":
+                    case "激励政策返款":
+                        //计重收费返款
                         //我要寄百世爽约率考核罚款
                         if (cell.Row.GetCell(0) != null)
                         {
@@ -369,8 +372,9 @@ namespace _800Best.ExcelHelpDAL
         /// </summary>
         /// <param name="collectlist"></param>
         /// <returns></returns>
-        public bool UploadCollectBagtoDataBase(List<CollectPackBag> collectlist)
+        public int UploadCollectBagtoDataBase(List<CollectPackBag> collectlist)
         {
+            int resultNum=0;
             string sql = "insert into collecbags values( @ScanSite, @ScanType, @BagID, @ID, @ScanPeople, @ScanTime, @RecordTime, @Weight, @DestinationProvince, @DestinationCity, @Site);";
             foreach (CollectPackBag model in collectlist)
             {
@@ -391,18 +395,20 @@ namespace _800Best.ExcelHelpDAL
                 };
 
                     //SqlParameter[] sp = parameterArray1;
-                    SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
+                    resultNum= SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
                 }
+
             }
-            return true;
+            return resultNum;
         }
         /// <summary>
         /// 扣费数据上传
         /// </summary>
         /// <param name="costlist"></param>
         /// <returns></returns>
-        public bool UploadCosttoDataBase(List<Cost> costlist)
+        public int UploadCosttoDataBase(List<Cost> costlist)
         {
+            int resultRows = 0;
             string sql = "insert into cost values( @costID, @costtype, @time, @costnum, @amount, @amounttype, @remark);";
             foreach (Cost model in costlist)
             {
@@ -418,18 +424,19 @@ namespace _800Best.ExcelHelpDAL
                          new SqlParameter("@remark", SqlDbType.NVarChar, 100){Value = (model.Remarks ==    null) ? ((object)DBNull.Value) : (model.Remarks)}
                 };
 
-                    SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
+                    resultRows= SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
                 }
             }
-            return true;
+            return resultRows;
         }
         /// <summary>
         /// 订单数据上传
         /// </summary>
         /// <param name="costlist"></param>
         /// <returns></returns>
-        public bool UploadCustomertoDataBase(List<Customer> costlist)
+        public int UploadCustomertoDataBase(List<Customer> costlist)
         {
+            int resultRows = 0;
             string sql = "insert into customer values( @Date, @ID, @Address1, @Address2, @Address3, @Weight, @Site, @WeightFenbo, @WeightJisancan, @WeightYiji, @WeightErji,@WeightJipao);";
             foreach (Customer model in costlist)
             {
@@ -450,10 +457,10 @@ namespace _800Best.ExcelHelpDAL
                 };
 
                     //SqlParameter[] sp = parameterArray1;
-                    SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
+                resultRows=    SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
                 }
             }
-            return true;
+            return resultRows;
         }
     }
 }

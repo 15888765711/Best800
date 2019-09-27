@@ -163,52 +163,55 @@ namespace _800Best.ExcelHelpBLL
                 }
                 workbook.Write(File.Create(myExcel.SaveFile));
                 workbook.Close();
-                MessageBox.Show($"成功复制{souceFileNames.Count - failedFileNames.Count}个表，失败{ failedFileNames.Count}个表,失败表名为{ this.ListtoString(failedFileNames)}");
+                MessageBox.Show($"成功复制{souceFileNames.Count - failedFileNames.Count}个表，\r\n失败{ failedFileNames.Count}个表,\r\n失败表名为{ this.ListtoString(failedFileNames)}");
             }
 
-            public bool UpdateData(DateTime dateTime) =>
-                (this.myDal.UpdateData(dateTime) > 0);
+        public int UpdateData(DateTime dateTime)
+        {
+          return  myDal.UpdateData(dateTime) ;
+                }
+        
 
-            public bool UpLoadCollectBagToDataBase(string upLoadFiles)
+            public int UpLoadCollectBagToDataBase(string upLoadFiles)
             {
                 if (File.Exists(upLoadFiles))
                 {
                     List<CollectPackBag> collectList = MyExcelHelper.GetCollectList(upLoadFiles);
                     if (collectList == null)
                     {
-                        return false;
+                        return 0;
                     }
                     return this.myDal.UploadCollectBagtoDataBase(collectList);
                 }
-                return false;
+                return 0;
             }
 
-            public bool UpLoadCustomerToDataBase(string upLoadFiles)
+            public int UpLoadCustomerToDataBase(string upLoadFiles)
             {
                 if (File.Exists(upLoadFiles))
                 {
                     List<Customer> costlist = MyExcelHelper.CustomerList(upLoadFiles);
                     if (costlist == null)
                     {
-                        return false;
+                        return 0;
                     }
                     return this.myDal.UploadCustomertoDataBase(costlist);
                 }
-                return false;
+                return 0;
             }
 
-            public bool UpLoadToDataBase(string upLoadFiles)
+            public int UpLoadToDataBase(string upLoadFiles)
             {
                 if (File.Exists(upLoadFiles))//判断是否存在
                 {
                     List<Cost> costList = MyExcelHelper.GetCostList(upLoadFiles);
                     if (costList == null)
                     {
-                        return false;
+                        return 0;
                     }
                     return this.myDal.UploadCosttoDataBase(costList);
                 }
-                return false;
+                return 0;
             }
         }
     }
