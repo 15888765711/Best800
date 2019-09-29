@@ -307,6 +307,7 @@ namespace _800Best.ExcelHelpProtal
             this.BtnUpLoadQ9_Click(sender, e);
             this.BtnUpLoadCollectBag_Click(sender, e);
             this.BtnUpLoadS9_Click(sender, e);
+            this.BtnUpLoadParts_Click(sender, e);
             //Thread.Sleep(100);
             //int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()));
             //if (resultRows>0)
@@ -349,6 +350,11 @@ namespace _800Best.ExcelHelpProtal
                 lblState.Text += "\r\n修改数据成功" + DateTime.Now.ToShortTimeString();
 
             }
+        }
+
+        private void BtnUpLoadParts_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

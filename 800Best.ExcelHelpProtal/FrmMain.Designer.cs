@@ -69,6 +69,10 @@
             this.lblEndTime = new System.Windows.Forms.Label();
             this.lblState = new System.Windows.Forms.Label();
             this.btnEdit = new System.Windows.Forms.Button();
+            this.lblParts = new System.Windows.Forms.Label();
+            this.txtPartsPath = new System.Windows.Forms.TextBox();
+            this.btnUpLoadParts = new System.Windows.Forms.Button();
+            this.btnPartsPath = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbxSelectBox
@@ -210,14 +214,14 @@
             // 
             // txtEndTime
             // 
-            this.txtEndTime.Location = new System.Drawing.Point(450, 291);
+            this.txtEndTime.Location = new System.Drawing.Point(450, 336);
             this.txtEndTime.Name = "txtEndTime";
             this.txtEndTime.Size = new System.Drawing.Size(82, 21);
             this.txtEndTime.TabIndex = 21;
             // 
             // txtStartTime
             // 
-            this.txtStartTime.Location = new System.Drawing.Point(345, 291);
+            this.txtStartTime.Location = new System.Drawing.Point(345, 336);
             this.txtStartTime.Name = "txtStartTime";
             this.txtStartTime.Size = new System.Drawing.Size(82, 21);
             this.txtStartTime.TabIndex = 20;
@@ -234,7 +238,7 @@
             // lblStartTime
             // 
             this.lblStartTime.AutoSize = true;
-            this.lblStartTime.Location = new System.Drawing.Point(343, 268);
+            this.lblStartTime.Location = new System.Drawing.Point(343, 313);
             this.lblStartTime.Name = "lblStartTime";
             this.lblStartTime.Size = new System.Drawing.Size(65, 12);
             this.lblStartTime.TabIndex = 23;
@@ -352,7 +356,7 @@
             // 
             // btnUpLoadAll
             // 
-            this.btnUpLoadAll.Location = new System.Drawing.Point(489, 180);
+            this.btnUpLoadAll.Location = new System.Drawing.Point(489, 225);
             this.btnUpLoadAll.Name = "btnUpLoadAll";
             this.btnUpLoadAll.Size = new System.Drawing.Size(122, 23);
             this.btnUpLoadAll.TabIndex = 17;
@@ -362,7 +366,7 @@
             // 
             // btnUpdateWeight
             // 
-            this.btnUpdateWeight.Location = new System.Drawing.Point(628, 180);
+            this.btnUpdateWeight.Location = new System.Drawing.Point(628, 225);
             this.btnUpdateWeight.Name = "btnUpdateWeight";
             this.btnUpdateWeight.Size = new System.Drawing.Size(47, 23);
             this.btnUpdateWeight.TabIndex = 16;
@@ -372,7 +376,7 @@
             // 
             // btnUpLoadTablePath
             // 
-            this.btnUpLoadTablePath.Location = new System.Drawing.Point(575, 238);
+            this.btnUpLoadTablePath.Location = new System.Drawing.Point(575, 283);
             this.btnUpLoadTablePath.Name = "btnUpLoadTablePath";
             this.btnUpLoadTablePath.Size = new System.Drawing.Size(47, 23);
             this.btnUpLoadTablePath.TabIndex = 18;
@@ -382,7 +386,7 @@
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(628, 238);
+            this.btnExport.Location = new System.Drawing.Point(628, 283);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(47, 23);
             this.btnExport.TabIndex = 19;
@@ -392,7 +396,7 @@
             // 
             // txtUpLoadTablePath
             // 
-            this.txtUpLoadTablePath.Location = new System.Drawing.Point(342, 240);
+            this.txtUpLoadTablePath.Location = new System.Drawing.Point(342, 285);
             this.txtUpLoadTablePath.Name = "txtUpLoadTablePath";
             this.txtUpLoadTablePath.Size = new System.Drawing.Size(227, 21);
             this.txtUpLoadTablePath.TabIndex = 22;
@@ -400,7 +404,7 @@
             // lblUpLoadTablePath
             // 
             this.lblUpLoadTablePath.AutoSize = true;
-            this.lblUpLoadTablePath.Location = new System.Drawing.Point(364, 221);
+            this.lblUpLoadTablePath.Location = new System.Drawing.Point(364, 266);
             this.lblUpLoadTablePath.Name = "lblUpLoadTablePath";
             this.lblUpLoadTablePath.Size = new System.Drawing.Size(113, 12);
             this.lblUpLoadTablePath.TabIndex = 24;
@@ -409,7 +413,7 @@
             // lblEndTime
             // 
             this.lblEndTime.AutoSize = true;
-            this.lblEndTime.Location = new System.Drawing.Point(448, 268);
+            this.lblEndTime.Location = new System.Drawing.Point(448, 313);
             this.lblEndTime.Name = "lblEndTime";
             this.lblEndTime.Size = new System.Drawing.Size(101, 12);
             this.lblEndTime.TabIndex = 23;
@@ -418,7 +422,7 @@
             // lblState
             // 
             this.lblState.AutoSize = true;
-            this.lblState.Location = new System.Drawing.Point(343, 327);
+            this.lblState.Location = new System.Drawing.Point(343, 372);
             this.lblState.Name = "lblState";
             this.lblState.Size = new System.Drawing.Size(41, 12);
             this.lblState.TabIndex = 25;
@@ -426,7 +430,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(628, 279);
+            this.btnEdit.Location = new System.Drawing.Point(628, 324);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(47, 23);
             this.btnEdit.TabIndex = 19;
@@ -434,11 +438,50 @@
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
             // 
+            // lblParts
+            // 
+            this.lblParts.AutoSize = true;
+            this.lblParts.Location = new System.Drawing.Point(364, 167);
+            this.lblParts.Name = "lblParts";
+            this.lblParts.Size = new System.Drawing.Size(113, 12);
+            this.lblParts.TabIndex = 36;
+            this.lblParts.Text = "派件导入数据路径：";
+            // 
+            // txtPartsPath
+            // 
+            this.txtPartsPath.Location = new System.Drawing.Point(342, 186);
+            this.txtPartsPath.Name = "txtPartsPath";
+            this.txtPartsPath.Size = new System.Drawing.Size(227, 21);
+            this.txtPartsPath.TabIndex = 35;
+            // 
+            // btnUpLoadParts
+            // 
+            this.btnUpLoadParts.Location = new System.Drawing.Point(628, 184);
+            this.btnUpLoadParts.Name = "btnUpLoadParts";
+            this.btnUpLoadParts.Size = new System.Drawing.Size(47, 23);
+            this.btnUpLoadParts.TabIndex = 34;
+            this.btnUpLoadParts.Text = "上传";
+            this.btnUpLoadParts.UseVisualStyleBackColor = true;
+            this.btnUpLoadParts.Click += new System.EventHandler(this.BtnUpLoadParts_Click);
+            // 
+            // btnPartsPath
+            // 
+            this.btnPartsPath.Location = new System.Drawing.Point(575, 184);
+            this.btnPartsPath.Name = "btnPartsPath";
+            this.btnPartsPath.Size = new System.Drawing.Size(47, 23);
+            this.btnPartsPath.TabIndex = 33;
+            this.btnPartsPath.Text = "浏览";
+            this.btnPartsPath.UseVisualStyleBackColor = true;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(691, 420);
+            this.ClientSize = new System.Drawing.Size(691, 473);
+            this.Controls.Add(this.lblParts);
+            this.Controls.Add(this.txtPartsPath);
+            this.Controls.Add(this.btnUpLoadParts);
+            this.Controls.Add(this.btnPartsPath);
             this.Controls.Add(this.lblSelectTable);
             this.Controls.Add(this.lblMergePath);
             this.Controls.Add(this.lblFiled2);
@@ -531,6 +574,10 @@
         private System.Windows.Forms.Label lblEndTime;
         private System.Windows.Forms.Label lblState;
         private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Label lblParts;
+        private System.Windows.Forms.TextBox txtPartsPath;
+        private System.Windows.Forms.Button btnUpLoadParts;
+        private System.Windows.Forms.Button btnPartsPath;
     }
 }
 

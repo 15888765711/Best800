@@ -72,6 +72,7 @@
     <Compile Include="Cost.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="MyExcel.cs" />
+    <Compile Include="Parts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpLoadFile.cs" />
   </ItemGroup>
