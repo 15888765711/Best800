@@ -33,9 +33,9 @@ namespace _800Best.ExcelHelpProtal
             this.txtFiled2.Text = "重量";
             this.txtStartRow.Text = "2";
             this.txtMergePath.Text =String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx",dateStr);
-            this.txtQ9Path.Text = String.Format(@"I:\work\百世南白象\Q9数据\{0}\{0}q9.xlsx", dateStr);
-            this.txtCollectBagPath.Text = String.Format(@"I:\work\百世南白象\集包数据\{0}\{0}jb.xlsx", dateStr);
-            this.txtUpLoadTablePath.Text = String.Format(@"I:\work\百世南白象\上传数据\{0}\{0}.xlsx", dateStr);
+            this.txtQ9Path.Text = String.Format(@"I:\work\百世南白象\Q9数据\{0}q9.xlsx", dateStr);
+            this.txtCollectBagPath.Text = String.Format(@"I:\work\百世南白象\集包数据\{0}jb.xlsx", dateStr);
+            this.txtUpLoadTablePath.Text = String.Format(@"I:\work\百世南白象\上传数据\{0}.xlsx", dateStr);
             this.txtS9Path.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
 
         }
@@ -307,16 +307,16 @@ namespace _800Best.ExcelHelpProtal
             this.BtnUpLoadQ9_Click(sender, e);
             this.BtnUpLoadCollectBag_Click(sender, e);
             this.BtnUpLoadS9_Click(sender, e);
-            Thread.Sleep(100);
-            int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()));
-            if (resultRows>0)
-            {
-                lblState.Text += "\r\n重量更新成功,返回结果："+ resultRows;
-            }
-            else
-            {
-                lblState.Text += "\r\n重量更新失败";
-            }
+            //Thread.Sleep(100);
+            //int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()));
+            //if (resultRows>0)
+            //{
+            //    lblState.Text += "\r\n重量更新成功,返回结果："+ resultRows;
+            //}
+            //else
+            //{
+            //    lblState.Text += "\r\n重量更新失败";
+            //}
 
 
         }

@@ -356,7 +356,7 @@
             this.btnUpLoadAll.Name = "btnUpLoadAll";
             this.btnUpLoadAll.Size = new System.Drawing.Size(122, 23);
             this.btnUpLoadAll.TabIndex = 17;
-            this.btnUpLoadAll.Text = "全部上传并更新";
+            this.btnUpLoadAll.Text = "全部上传";
             this.btnUpLoadAll.UseVisualStyleBackColor = true;
             this.btnUpLoadAll.Click += new System.EventHandler(this.BtnUpLoadAll_Click);
             // 
