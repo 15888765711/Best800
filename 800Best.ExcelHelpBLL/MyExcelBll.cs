@@ -18,7 +18,11 @@ namespace _800Best.ExcelHelpBLL
         
             private readonly MyExcelDal myDal = new MyExcelDal();
             private bool isAddFileName;
-
+        /// <summary>
+        /// 修改结算类型
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
             public bool ChangeExcel(string fileName)
             {
                 try
@@ -48,12 +52,27 @@ namespace _800Best.ExcelHelpBLL
                     return false;
                 }
             }
-
-            public bool GetExportData(string filename, DateTime starttime, DateTime endtime)
+        /// <summary>
+        /// 获取导出数据（站点修改）
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="starttime"></param>
+        /// <param name="endtime"></param>
+        /// <returns></returns>
+            public bool GetExportData(string filename, DateTime starttime, DateTime endtime,bool isXinqiao)
             {
                 IWorkbook workbook = new XSSFWorkbook();
-            string[] strArray = new string[] { "运单扣费", "001运单扣费", "取消上传", "包号扣费", "非匹配数据", "刷单扣费", "集包收费", "001集包收费", "集包费取消", "应收余额数据", "包号费", "汇总表" };
-            //string[] strArray = new string[] { "新桥集包", "新桥运单扣费" };
+            string[] strArray = null;
+            if (isXinqiao)
+            {
+                 strArray = new string[] { "新桥集包", "新桥运单扣费" };
+            }
+            else
+            {
+                 strArray = new string[] { "运单扣费", "001运单扣费", "取消上传", "包号扣费", "非匹配数据", "刷单扣费", "集包收费", "001集包收费", "集包费取消", "应收余额数据", "包号费", "汇总表" };
+            }
+        
+            //
                 int length = strArray.Length;
                 ISheet[] sheetArray = new ISheet[length];
                 for (int i = 0; i < (length - 1); i++)
@@ -71,7 +90,11 @@ namespace _800Best.ExcelHelpBLL
                 workbook.Close();
                 return true;
             }
-
+        /// <summary>
+        /// 获取sql语句
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
             private string GetSqlStr(string sql)
             {
                 string s = sql;
@@ -137,7 +160,11 @@ namespace _800Best.ExcelHelpBLL
                 }
                 return null;
             }
-
+        /// <summary>
+        /// 把list转换成几行的字符串
+        /// </summary>
+        /// <param name="failedFileNames"></param>
+        /// <returns></returns>
             private string ListtoString(List<string> failedFileNames)
             {
                 string str = null;
@@ -147,7 +174,11 @@ namespace _800Best.ExcelHelpBLL
                 }
                 return str;
             }
-
+        /// <summary>
+        /// 合并单元格bll逻辑
+        //// </summary>
+        /// <param name="myExcel"></param>
+        /// <param name="souceFileNames"></param>
             public void MergeExcel(MyExcel myExcel, List<string> souceFileNames)
             {
                 this.isAddFileName = true;
@@ -171,13 +202,21 @@ namespace _800Best.ExcelHelpBLL
                 workbook.Close();
                 MessageBox.Show($"成功复制{souceFileNames.Count - failedFileNames.Count}个表，\r\n失败{ failedFileNames.Count}个表,\r\n失败表名为{ this.ListtoString(failedFileNames)}");
             }
-
+        /// <summary>
+        /// 更新重量
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
         public int UpdateData(DateTime dateTime)
         {
           return  myDal.UpdateData(dateTime) ;
          }
         
-
+        /// <summary>
+        /// 上传集包
+        /// </summary>
+        /// <param name="upLoadFiles"></param>
+        /// <returns></returns>
             public int UpLoadCollectBagToDataBase(string upLoadFiles)
             {
                 if (File.Exists(upLoadFiles))
@@ -191,7 +230,11 @@ namespace _800Best.ExcelHelpBLL
                 }
                 return 0;
             }
-
+        /// <summary>
+        /// 上传s9
+        /// </summary>
+        /// <param name="upLoadFiles"></param>
+        /// <returns></returns>
             public int UpLoadCustomerToDataBase(string upLoadFiles)
             {
                 if (File.Exists(upLoadFiles))
@@ -205,6 +248,11 @@ namespace _800Best.ExcelHelpBLL
                 }
                 return 0;
             }
+        /// <summary>
+        /// 上传派件
+        /// </summary>
+        /// <param name="upLoadFiles"></param>
+        /// <returns></returns>
         public int UpLoadPartsToDataBase(string upLoadFiles)
         {
             if (File.Exists(upLoadFiles))
@@ -218,6 +266,11 @@ namespace _800Best.ExcelHelpBLL
             }
             return 0;
         }
+        /// <summary>
+        /// 上传cost
+        /// </summary>
+        /// <param name="upLoadFiles"></param>
+        /// <returns></returns>
             public int UpLoadToDataBase(string upLoadFiles)
             {
                 if (File.Exists(upLoadFiles))//判断是否存在

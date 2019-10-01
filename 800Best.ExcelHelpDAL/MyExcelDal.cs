@@ -351,7 +351,11 @@ namespace _800Best.ExcelHelpDAL
             }
             return mySheet;
         }
-
+        /// <summary>
+        /// 上传派件数据
+        /// </summary>
+        /// <param name="partlist"></param>
+        /// <returns></returns>
         public int UploadPartstoDataBase(List<Parts> partlist)
         {
             int resultNum = 0;
@@ -373,7 +377,7 @@ namespace _800Best.ExcelHelpDAL
                 };
 
                     //SqlParameter[] sp = parameterArray1;
-                    resultNum = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
+                    resultNum += SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
                 }
 
             }
@@ -428,7 +432,7 @@ namespace _800Best.ExcelHelpDAL
                 };
 
                     //SqlParameter[] sp = parameterArray1;
-                    resultNum= SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
+                    resultNum+= SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
                 }
 
             }
@@ -457,7 +461,7 @@ namespace _800Best.ExcelHelpDAL
                          new SqlParameter("@remark", SqlDbType.NVarChar, 100){Value = (model.Remarks ==    null) ? ((object)DBNull.Value) : (model.Remarks)}
                 };
 
-                    resultRows= SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
+                    resultRows +=SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
                 }
             }
             return resultRows;
@@ -490,7 +494,7 @@ namespace _800Best.ExcelHelpDAL
                 };
 
                     //SqlParameter[] sp = parameterArray1;
-                resultRows=    SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
+                resultRows +=   SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
                 }
             }
             return resultRows;

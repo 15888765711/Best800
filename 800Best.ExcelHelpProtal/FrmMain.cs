@@ -3,6 +3,7 @@ using _800Best.ExcelHelpModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -17,6 +18,7 @@ namespace _800Best.ExcelHelpProtal
 
     public partial class FrmMain : Form
     {
+        bool isXinqiao = false;
         private readonly MyExcelBll bll = new MyExcelBll();
         public FrmMain()
         {
@@ -32,21 +34,39 @@ namespace _800Best.ExcelHelpProtal
             this.txtFiled1.Text = "归属站点";
             this.txtFiled2.Text = "重量";
             this.txtStartRow.Text = "2";
-            this.txtMergePath.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
-            this.txtQ9Path.Text = String.Format(@"I:\work\百世南白象\Q9数据\{0}q9.xlsx", dateStr);
-            this.txtCollectBagPath.Text = String.Format(@"I:\work\百世南白象\集包数据\{0}jb.xlsx", dateStr);
-            this.txtUpLoadTablePath.Text = String.Format(@"I:\work\百世南白象\上传数据\{0}.xlsx", dateStr);
-            this.txtPartsPath.Text = String.Format(@"I:\work\百世南白象\派件数据\{0}pj.xlsx", dateStr);
-            this.txtS9Path.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
+            string xinqiaoStr = ConfigurationManager.ConnectionStrings["IsXinqiao"].ConnectionString;
+            //分类站点
+            if (xinqiaoStr== "Xinqiao")
+            {
+                isXinqiao = true;
 
-            //D:\Work
+            }
+            else
+            {
+                isXinqiao = false;
+            }
+        
+            if (isXinqiao)
+            {
+                this.txtMergePath.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
+                this.txtQ9Path.Text = String.Format(@"D:\Work\Q9数据\{0}q9.xlsx", dateStr);
+                this.txtCollectBagPath.Text = String.Format(@"D:\Work\集包数据\{0}jb.xlsx", dateStr);
+                this.txtUpLoadTablePath.Text = String.Format(@"D:\Work\上传数据\{0}.xlsx", dateStr);
+                this.txtPartsPath.Text = String.Format(@"D:\Work\派件数据\{0}pj.xlsx", dateStr);
+                this.txtS9Path.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
 
-            //this.txtMergePath.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
-            //this.txtQ9Path.Text = String.Format(@"D:\Work\Q9数据\{0}q9.xlsx", dateStr);
-            //this.txtCollectBagPath.Text = String.Format(@"D:\Work\集包数据\{0}jb.xlsx", dateStr);
-            //this.txtUpLoadTablePath.Text = String.Format(@"D:\Work\上传数据\{0}.xlsx", dateStr);
-            //this.txtPartsPath.Text = String.Format(@"D:\Work\派件数据\{0}pj.xlsx", dateStr);
-            //this.txtS9Path.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
+            }
+            else
+            {
+                this.txtMergePath.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
+                this.txtQ9Path.Text = String.Format(@"I:\work\百世南白象\Q9数据\{0}q9.xlsx", dateStr);
+                this.txtCollectBagPath.Text = String.Format(@"I:\work\百世南白象\集包数据\{0}jb.xlsx", dateStr);
+                this.txtUpLoadTablePath.Text = String.Format(@"I:\work\百世南白象\上传数据\{0}.xlsx", dateStr);
+                this.txtPartsPath.Text = String.Format(@"I:\work\百世南白象\派件数据\{0}pj.xlsx", dateStr);
+                this.txtS9Path.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
+
+            }
+
 
         }
         /// <summary>
@@ -330,7 +350,7 @@ namespace _800Best.ExcelHelpProtal
             {
                 MessageBox.Show("请检查数据是否完整输入");
             }
-            else if (this.bll.GetExportData(this.txtUpLoadTablePath.Text.Trim(), DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim())))
+            else if (this.bll.GetExportData(this.txtUpLoadTablePath.Text.Trim(), DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim()), isXinqiao))
             {
                 MessageBox.Show("导出成功");
             }
