@@ -168,7 +168,55 @@ namespace _800Best.ExcelHelpCommon
             }
 
             private delegate T GetModelDelegate<T>(List<T> listmodel, string[] strs);
+
+        public static List<Parts> GetPartsList(string upLoadFiles)
+        {
+            string[] strArray = new string[] { "运单编号", "扫描站点", "扫描时间", "扫描人", "录入日期", "收/派件员" };
+            IWorkbook workbook = WorkbookFactory.Create(upLoadFiles);
+            ISheet sheetAt = workbook.GetSheetAt(0);
+            List<Parts> partsList = new List<Parts>();
+      
+            //---------------------------------------------------------------------
+    
+            int lastRowNum = sheetAt.LastRowNum;//最后一行
+            int lastCellNum = sheetAt.GetRow(0).LastCellNum;//最后一列
+            IRow row = sheetAt.GetRow(0);//标题行
+            int[] numArray = new int[strArray.Length];//字段头位置数组
+            for (int i = 0; i < strArray.Length; i++)
+            {
+                numArray[i] = -1;
+                for (int k = 0; k < lastCellNum; k++)
+                {
+                    if (strArray[i] == row.GetCell(k).StringCellValue)
+                    {
+                        numArray[i] = k;
+                        break;
+                    }
+                }
+                if (numArray[i] == -1)
+                {
+                    return null;
+                }
+            }
+            for (int j = 1; j <= lastRowNum; j++)
+            {
+                row = sheetAt.GetRow(j);
+                Parts item = new Parts
+                {
+                    ID = (row.GetCell(numArray[0]) == null) ? null : row.GetCell(numArray[0]).StringCellValue,
+                    ScanSite = (row.GetCell(numArray[1]) == null) ? null : row.GetCell(numArray[1]).StringCellValue,
+                    ScanTime = Convert.ToDateTime(row.GetCell(numArray[2]).StringCellValue),
+                    ScanPeople = (row.GetCell(numArray[3]) == null) ? null : row.GetCell(numArray[3]).StringCellValue,
+                    Recordtime = Convert.ToDateTime(row.GetCell(numArray[4]).StringCellValue),
+                    Worker = (row.GetCell(numArray[5]) == null) ? null : row.GetCell(numArray[5]).StringCellValue
+                   
+                };
+                partsList.Add(item);
+            }
+            workbook.Close();
+            return partsList;
         }
+    }
     }
 
 

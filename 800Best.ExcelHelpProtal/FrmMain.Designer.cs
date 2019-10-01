@@ -472,6 +472,7 @@
             this.btnPartsPath.TabIndex = 33;
             this.btnPartsPath.Text = "浏览";
             this.btnPartsPath.UseVisualStyleBackColor = true;
+            this.btnPartsPath.Click += new System.EventHandler(this.BtnPartsPath_Click);
             // 
             // FrmMain
             // 

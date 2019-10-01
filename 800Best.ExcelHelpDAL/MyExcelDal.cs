@@ -351,6 +351,39 @@ namespace _800Best.ExcelHelpDAL
             }
             return mySheet;
         }
+
+        public int UploadPartstoDataBase(List<Parts> partlist)
+        {
+            int resultNum = 0;
+            string sql = "insert into Parts values( @id, @scanSite, @scanTime, @scanPeople, @recordtime, @worker);";
+            foreach (Parts model in partlist)
+            {
+                if (model != null)
+                {
+                    SqlParameter[] sp = new SqlParameter[]
+                    {   new SqlParameter("@id", SqlDbType.NVarChar, 50){ Value = model.ID == null?((object)DBNull.Value) : ((object)model.ID)
+                    },
+                        new SqlParameter("@scanSite", SqlDbType.NVarChar, 50){Value = (model.ScanSite == null) ? ((object)DBNull.Value) : ((object)model.ScanSite)},
+                        new SqlParameter("@scanTime", SqlDbType.DateTime){Value = model.ScanTime},
+                        new SqlParameter("@scanPeople", SqlDbType.NVarChar, 50){Value = model.ScanPeople==null?(object)DBNull.Value:model.ScanPeople},
+                        new SqlParameter("@recordtime", SqlDbType.DateTime){Value = model.Recordtime },
+                        new SqlParameter("@worker", SqlDbType.NVarChar, 50){Value = model.Worker==null?(object)DBNull.Value:model.Worker}
+
+
+                };
+
+                    //SqlParameter[] sp = parameterArray1;
+                    resultNum = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
+                }
+
+            }
+            return resultNum;
+
+
+
+
+        }
+
         /// <summary>
         /// 更新重量
         /// </summary>
@@ -381,7 +414,7 @@ namespace _800Best.ExcelHelpDAL
                 if (model != null)
                 {
                     SqlParameter[] sp = new SqlParameter[]
-                    {   new SqlParameter("@ScanSite", SqlDbType.NVarChar, 50){ Value = (model.ScanSite ==       null) ? ((object)DBNull.Value) : ((object)model.ScanSite)},
+                    {   new SqlParameter("@ScanSite", SqlDbType.NVarChar, 50){ Value = (model.ScanSite ==null) ? ((object)DBNull.Value) : ((object)model.ScanSite)},
                         new SqlParameter("@ScanType", SqlDbType.NVarChar, 50){Value = (model.ScanType == null) ? ((object)DBNull.Value) : ((object)model.ScanType)},
                         new SqlParameter("@BagID", SqlDbType.NVarChar, 50){Value = model.BagID},
                         new SqlParameter("@ID", SqlDbType.NVarChar, 50){Value = model.ID},
