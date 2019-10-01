@@ -52,8 +52,9 @@ namespace _800Best.ExcelHelpBLL
             public bool GetExportData(string filename, DateTime starttime, DateTime endtime)
             {
                 IWorkbook workbook = new XSSFWorkbook();
-                string[] strArray = new string[] { "运单扣费", "001运单扣费", "取消上传", "包号扣费", "非匹配数据", "刷单扣费", "集包收费", "001集包收费", "集包费取消", "应收余额数据", "包号费", "汇总表" };
-                int length = strArray.Length;
+            //string[] strArray = new string[] { "运单扣费", "001运单扣费", "取消上传", "包号扣费", "非匹配数据", "刷单扣费", "集包收费", "001集包收费", "集包费取消", "应收余额数据", "包号费", "汇总表" };
+            string[] strArray = new string[] { "新桥集包", "新桥运单扣费" };
+            int length = strArray.Length;
                 ISheet[] sheetArray = new ISheet[length];
                 for (int i = 0; i < (length - 1); i++)
                 {
@@ -78,6 +79,10 @@ namespace _800Best.ExcelHelpBLL
                 {
                     switch (s)
                     {
+                    case "新桥集包":return "SELECT   ID AS 运单编号, Site AS 开户站点, '代转件费' as 结算类型,case when Weight<= 3 then - 0.35 when Weight> 3 then round(Weight*-0.1,2) end as 结算金额,'' as 备注,Weight AS 重量, Address1 AS 地址 FROM      dbo.Customer where  date >= @starttime and date<@endtime";
+                    case "新桥运单扣费":
+                        return  "SELECT t1.CostID AS 运单编号, t2.Site AS 开户站点, t1.CostType AS 结算类型, t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量, t4.Site AS 面单发放网点 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime)";
+
                         case "包号费":
 
                             return "SELECT t1.CostID as '运单编号', '温州瓯海茶山二部' AS 开户站点, t1.CostType as '结算类型', t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostNum as '结算流水号' FROM dbo.cost t1  WHERE(t1.CostTime >= @starttime) AND(t1.CostType ='包号费' or t1.CostType ='代付进港集包费' or t1.CostType ='走件费' or t1.CostType ='存款' ) AND(t1.CostAmountType = '可用余额') and(t1.CostTime < @endtime) GROUP BY t1.CostID, t1.CostType, t1.CostAmount, t1.CostNum, t1.CostTime";
@@ -94,7 +99,7 @@ namespace _800Best.ExcelHelpBLL
 
                         case "001集包收费":
 
-                            return "SELECT   ID AS 运单编号, Site AS 开户站点, '代转件费' AS 结算类型,  CASE WHEN LEFT(Address1,2) IN('新疆','西藏','内蒙','宁夏','青海','海南') THEN -ceiling(Weight)  when Weight<=0.5 then 0.2 when Weight<=1 then 0 when Weight<=3 then -0.5 ELSE round(Weight * (- 0.1), 2) END AS 结算金额,  Date AS 备注, Weight as '重量',LEFT(Address1,2) AS 地区   FROM  dbo.customer  WHERE (Date >= @starttime) and (Date < @endtime) AND (Site='温州南白象001') ";
+                            return "SELECT   ID AS 运单编号, Site AS 开户站点, '代转件费' AS 结算类型,  CASE WHEN LEFT(Address1,2) IN('新疆','西藏','内蒙','宁夏','青海','海南') THEN -ceiling(Weight)  when Weight<=0.5 then 0.1 when Weight<=1 then 0 when Weight<=3 then -0.5 ELSE round(Weight * (- 0.1), 2) END AS 结算金额,  Date AS 备注, Weight as '重量',LEFT(Address1,2) AS 地区   FROM  dbo.customer  WHERE (Date >= @starttime) and (Date < @endtime) AND (Site='温州南白象001') ";
 
                         
                         case "集包费取消":

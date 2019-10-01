@@ -32,21 +32,21 @@ namespace _800Best.ExcelHelpProtal
             this.txtFiled1.Text = "归属站点";
             this.txtFiled2.Text = "重量";
             this.txtStartRow.Text = "2";
-            this.txtMergePath.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
-            this.txtQ9Path.Text = String.Format(@"I:\work\百世南白象\Q9数据\{0}q9.xlsx", dateStr);
-            this.txtCollectBagPath.Text = String.Format(@"I:\work\百世南白象\集包数据\{0}jb.xlsx", dateStr);
-            this.txtUpLoadTablePath.Text = String.Format(@"I:\work\百世南白象\上传数据\{0}.xlsx", dateStr);
-            this.txtPartsPath.Text = String.Format(@"I:\work\百世南白象\派件数据\{0}pj.xlsx", dateStr);
-            this.txtS9Path.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
+            //this.txtMergePath.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
+            //this.txtQ9Path.Text = String.Format(@"I:\work\百世南白象\Q9数据\{0}q9.xlsx", dateStr);
+            //this.txtCollectBagPath.Text = String.Format(@"I:\work\百世南白象\集包数据\{0}jb.xlsx", dateStr);
+            //this.txtUpLoadTablePath.Text = String.Format(@"I:\work\百世南白象\上传数据\{0}.xlsx", dateStr);
+            //this.txtPartsPath.Text = String.Format(@"I:\work\百世南白象\派件数据\{0}pj.xlsx", dateStr);
+            //this.txtS9Path.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
 
             //D:\Work
 
-            //this.txtMergePath.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
-            //this.txtQ9Path.Text = String.Format(@"D:\Work\Q9数据\{0}q9.xlsx", dateStr);
-            //this.txtCollectBagPath.Text = String.Format(@"D:\Work\集包数据\{0}jb.xlsx", dateStr);
-            //this.txtUpLoadTablePath.Text = String.Format(@"D:\Work\上传数据\{0}.xlsx", dateStr);
-            //this.txtPartsPath.Text = String.Format(@"D:\Work\派件数据\{0}pj.xlsx", dateStr);
-            //this.txtS9Path.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
+            this.txtMergePath.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
+            this.txtQ9Path.Text = String.Format(@"D:\Work\Q9数据\{0}q9.xlsx", dateStr);
+            this.txtCollectBagPath.Text = String.Format(@"D:\Work\集包数据\{0}jb.xlsx", dateStr);
+            this.txtUpLoadTablePath.Text = String.Format(@"D:\Work\上传数据\{0}.xlsx", dateStr);
+            this.txtPartsPath.Text = String.Format(@"D:\Work\派件数据\{0}pj.xlsx", dateStr);
+            this.txtS9Path.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
 
         }
         /// <summary>
