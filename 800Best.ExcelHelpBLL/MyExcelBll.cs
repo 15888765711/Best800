@@ -65,7 +65,7 @@ namespace _800Best.ExcelHelpBLL
             string[] strArray = null;
             if (isXinqiao)
             {
-                 strArray = new string[] { "新桥集包", "新桥运单扣费" };
+                 strArray = new string[] { "新桥集包", "新桥运单扣费","汇总表" };
             }
             else
             {
@@ -84,8 +84,16 @@ namespace _800Best.ExcelHelpBLL
                     string sqlStr = this.GetSqlStr(strArray[j]);
                     sheetArray[j] = this.myDal.GetSheet(sheetArray[j], sqlStr, starttime, endtime);
                 }
+            if (isXinqiao)
+            {
+
+            }
+            else
+            {
                 sheetArray[length - 1] = workbook.CreateSheet(strArray[length - 1]);
                 sheetArray[length - 1] = this.myDal.GetSummarySheet(sheetArray[length - 1]);
+            }
+                
                 workbook.Write(File.OpenWrite(filename));
                 workbook.Close();
                 return true;
