@@ -65,7 +65,7 @@ namespace _800Best.ExcelHelpBLL
             string[] strArray = null;
             if (isXinqiao)
             {
-                 strArray = new string[] { "新桥集包", "新桥运单扣费","汇总表" };
+                 strArray = new string[] { "藤桥集包", "藤桥集包003","藤桥运单扣费", "未分类站点", "汇总表" };
             }
             else
             {
@@ -84,13 +84,14 @@ namespace _800Best.ExcelHelpBLL
                     string sqlStr = this.GetSqlStr(strArray[j]);
                     sheetArray[j] = this.myDal.GetSheet(sheetArray[j], sqlStr, starttime, endtime);
                 }
+            sheetArray[length - 1] = workbook.CreateSheet(strArray[length - 1]);
             if (isXinqiao)
             {
-
+                sheetArray[length - 1] = this.myDal.GetXinQiaoSummarySheet(sheetArray[length - 1]);
             }
             else
             {
-                sheetArray[length - 1] = workbook.CreateSheet(strArray[length - 1]);
+               
                 sheetArray[length - 1] = this.myDal.GetSummarySheet(sheetArray[length - 1]);
             }
                 
@@ -110,10 +111,12 @@ namespace _800Best.ExcelHelpBLL
                 {
                     switch (s)
                     {
-                    case "新桥集包":return "SELECT   ID AS 运单编号, Site AS 开户站点, '代转件费' as 结算类型,case when Weight<= 3 then - 0.35 when Weight> 3 then round(Weight*-0.1,2) end as 结算金额,'' as 备注,Weight AS 重量, Address1 AS 地址 FROM      dbo.Customer where  date >= @starttime and date<@endtime";
-                    case "新桥运单扣费":
-                        return  "SELECT t1.CostID AS 运单编号, t2.Site AS 开户站点, t1.CostType AS 结算类型, t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量, t4.Site AS 面单发放网点 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime)";
-
+                    case "藤桥集包":return "SELECT   ID AS 运单编号, Site AS 开户站点, '代转件费' as 结算类型,case when Weight<= 3 then - 0.35 when Weight> 3 then round(Weight*-0.1,2) end as 结算金额,'' as 备注,Weight AS 重量, Address1 AS 地址 FROM      dbo.Customer where  date >= @starttime and date<@endtime AND site<>'温州藤桥分部003'";
+                    case "藤桥集包003":return "SELECT   t1.ID AS 运单编号, t1.Site AS 开户站点, '代转件费' as 结算类型,case when t1.Weight <= 3 then - 0.35 when t1.Weight > 3 then round(t1.Weight*-0.1,2) end as 结算金额,'' as 备注,t1.Weight AS 重量, Address1 AS 地址 FROM   dbo.Customer t1 left join Collecbags t2 on t1.ID = t2.ID where date >= @starttime and date<@endtime AND t1.site= '温州藤桥分部003' AND t2.ID is not null";
+                    case "藤桥运单扣费":
+                        return "SELECT t1.CostID AS 运单编号, t2.Site AS 开户站点, t1.CostType AS 结算类型, t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量, t4.Site AS 面单发放网点 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) (t2.ID is not null or t3.ID is not null or t4.id is not null) group by t1.CostID,t2.Site,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site";
+                    case "未分类站点":
+                        return "SELECT t1.CostID AS 运单编号, t2.Site AS 开户站点, t1.CostType AS 结算类型, t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量, t4.Site AS 面单发放网点 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) and t2.ID is null and t3.ID is null and t4.id is null  group by t1.CostID,t2.Site,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site";
                         case "包号费":
 
                             return "SELECT t1.CostID as '运单编号', '温州瓯海茶山二部' AS 开户站点, t1.CostType as '结算类型', t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostNum as '结算流水号' FROM dbo.cost t1  WHERE(t1.CostTime >= @starttime) AND(t1.CostType ='包号费' or t1.CostType ='代付进港集包费' or t1.CostType ='走件费' or t1.CostType ='存款' ) AND(t1.CostAmountType = '可用余额') and(t1.CostTime < @endtime) GROUP BY t1.CostID, t1.CostType, t1.CostAmount, t1.CostNum, t1.CostTime";

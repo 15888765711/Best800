@@ -134,6 +134,55 @@ namespace _800Best.ExcelHelpDAL
                 }
             }
         }
+
+        public ISheet GetXinQiaoSummarySheet(ISheet sheet)
+        {
+            IRow row = sheet.CreateRow(1);
+            row.CreateCell(4).SetCellValue("上传数量");
+            row.CreateCell(5).SetCellValue("上传金额");
+            row.CreateCell(6).SetCellValue("未上传数量");
+            row.CreateCell(7).SetCellValue("未上传金额");
+            row.CreateCell(8).SetCellValue("总数量");
+            row.CreateCell(9).SetCellValue("总金额");
+            row.CreateCell(10).SetCellValue("核对");
+            row.CreateCell(11).SetCellValue("差异");
+            row = sheet.CreateRow(2);
+            row.CreateCell(3).SetCellValue("系统扣费");
+            row.CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费!G:G)-1");
+            row.CreateCell(5).SetCellFormula("SUM(藤桥运单扣费!D:D)");
+            row.CreateCell(6).SetCellFormula("COUNTA(未分类站点!G:G)-1");
+            row.CreateCell(7).SetCellFormula("SUM(未分类站点!D:D)");
+            row.CreateCell(8).SetCellFormula("E3+G3");
+            row.CreateCell(9).SetCellFormula("F3+H3");
+            row.CreateCell(11).SetCellFormula("ROUND(K3-J3,2)");
+            row = sheet.CreateRow(3);
+            row.CreateCell(3).SetCellValue("集包扣费");
+            row.CreateCell(4).SetCellFormula("COUNTA(藤桥集包!C:C,藤桥集包003!C:C)-2");
+            row.CreateCell(5).SetCellFormula("SUM(藤桥集包!D:D,藤桥集包003!D:D)");
+            row.CreateCell(8).SetCellFormula("E4+G4");
+            row.CreateCell(9).SetCellFormula("F4+H4");
+            row = sheet.CreateRow(4);
+            row.CreateCell(3).SetCellValue("合计");
+            row.CreateCell(4).SetCellFormula("SUM(E3:E4)");
+            row.CreateCell(5).SetCellFormula("SUM(F3:F4)");
+            row.CreateCell(6).SetCellFormula("SUM(G3:G4)");
+            row.CreateCell(7).SetCellFormula("SUM(H3:H4)");
+            row.CreateCell(8).SetCellFormula("SUM(I3:I4)");
+            row.CreateCell(9).SetCellFormula("SUM(J3:J4)");
+            row = sheet.CreateRow(5);
+            row.CreateCell(3).SetCellValue("1.代集包费3KG以下0.35，3KG以上0.1*重量，取两位小数");
+            row = sheet.CreateRow(6);
+            row.CreateCell(3).SetCellValue("2.003站点代集包费关联集包数据，有集包数据则扣费，无集包数据不扣费");
+            row = sheet.CreateRow(7);
+            row.CreateCell(3).SetCellValue("3.系统扣费中关联到派件单号的和应收余额的，做到温州藤桥一部");
+            row = sheet.CreateRow(8);
+            row.CreateCell(3).SetCellValue("4.网络资讯服务费做到温州藤桥分部001");
+            row = sheet.CreateRow(9);
+            row.CreateCell(3).SetCellValue("5.付有偿派费→派件费");
+            row.CreateCell(9).SetCellValue(DateTime.Today.AddDays(-1.0).ToShortDateString());
+            return sheet;
+        }
+
         /// <summary>
         /// 根据单元格格式转换成对应c#格式
         /// </summary>
@@ -224,7 +273,7 @@ namespace _800Best.ExcelHelpDAL
                         }
                         else if ((reader.GetName(k) == "重量") || (reader.GetName(k) == "金额"))
                         {
-                            cell.SetCellValue(Convert.ToDouble(obj2 ?? "0"));
+                            cell.SetCellValue(Convert.ToDouble(obj2 ==DBNull.Value? "0":obj2));
                         }
                         else
                         {
