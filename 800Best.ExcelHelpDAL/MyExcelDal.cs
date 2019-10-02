@@ -72,6 +72,7 @@ namespace _800Best.ExcelHelpDAL
                         if (numericCellValue > 0.0)
                         { cell.SetCellValue("寄件派费调整"); }
                         break;
+                    case "付有偿派费": cell.SetCellValue("派件费");break;
                     case "代转件费":
                         if (numericCellValue > 0.0)
                         {
@@ -169,15 +170,15 @@ namespace _800Best.ExcelHelpDAL
             row.CreateCell(7).SetCellFormula("SUM(H3:H4)");
             row.CreateCell(8).SetCellFormula("SUM(I3:I4)");
             row.CreateCell(9).SetCellFormula("SUM(J3:J4)");
-            row = sheet.CreateRow(5);
-            row.CreateCell(3).SetCellValue("1.代集包费3KG以下0.35，3KG以上0.1*重量，取两位小数");
             row = sheet.CreateRow(6);
-            row.CreateCell(3).SetCellValue("2.003站点代集包费关联集包数据，有集包数据则扣费，无集包数据不扣费");
+            row.CreateCell(3).SetCellValue("1.代集包费3KG以下0.35，3KG以上0.1*重量，取两位小数");
             row = sheet.CreateRow(7);
-            row.CreateCell(3).SetCellValue("3.系统扣费中关联到派件单号的和应收余额的，做到温州藤桥一部");
+            row.CreateCell(3).SetCellValue("2.003站点代集包费关联集包数据，有集包数据则扣费，无集包数据不扣费");
             row = sheet.CreateRow(8);
-            row.CreateCell(3).SetCellValue("4.网络资讯服务费做到温州藤桥分部001");
+            row.CreateCell(3).SetCellValue("3.系统扣费中关联到派件单号的和应收余额的，做到温州藤桥一部");
             row = sheet.CreateRow(9);
+            row.CreateCell(3).SetCellValue("4.网络资讯服务费做到温州藤桥分部001");
+            row = sheet.CreateRow(10);
             row.CreateCell(3).SetCellValue("5.付有偿派费→派件费");
             row.CreateCell(9).SetCellValue(DateTime.Today.AddDays(-1.0).ToShortDateString());
             return sheet;
