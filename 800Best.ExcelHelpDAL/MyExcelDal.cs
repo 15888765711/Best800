@@ -85,6 +85,19 @@ namespace _800Best.ExcelHelpDAL
                             cell.SetCellValue("中转费取消");
                         }
                         break;
+                    case "派件派费":
+                        if (numericCellValue > 0.0)
+                        {
+                            cell.SetCellValue("派件派费调整");
+                        }
+                        break;
+                    case "网点派件派费-赋能":
+                        if (numericCellValue > 0.0)
+                        {
+                            cell.SetCellValue("网点派件派费-赋能调整");
+                        }
+                        break;
+                    //派件派费
                     case "计重收费调整":
                         if (numericCellValue < 0.0)
                         {

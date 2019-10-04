@@ -27,6 +27,12 @@ namespace _800Best.ExcelHelpProtal
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            if (DateTime.Today>Convert.ToDateTime("2019/12/31"))
+            {
+                MessageBox.Show("使用时间已经到期");
+                this.Close();
+
+            }
             //I:\work\百世南白象\S9数据\
             string dateStr = DateTime.Today.AddDays(-1).ToString("MMdd");
             this.txtStartTime.Text = DateTime.Today.AddDays(-1.0).ToShortDateString();
