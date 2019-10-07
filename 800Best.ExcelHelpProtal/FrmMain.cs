@@ -1,5 +1,6 @@
 ﻿using _800Best.ExcelHelpBLL;
 using _800Best.ExcelHelpModel;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,6 +33,12 @@ namespace _800Best.ExcelHelpProtal
                 MessageBox.Show("使用时间已经到期");
                 this.Close();
 
+            }
+            string inputStr= Interaction.InputBox("输入密码", "输入密码", "", -1, -1);
+            if (inputStr!="12345")
+            {
+                MessageBox.Show("密码错误");
+                this.Close();
             }
             //I:\work\百世南白象\S9数据\
             string dateStr = DateTime.Today.AddDays(-1).ToString("MMdd");

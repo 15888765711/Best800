@@ -162,8 +162,8 @@ namespace _800Best.ExcelHelpDAL
             row.CreateCell(11).SetCellValue("差异");
             row = sheet.CreateRow(2);
             row.CreateCell(3).SetCellValue("系统扣费");
-            row.CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费1!G:G,藤桥运单扣费2!G:G,藤桥运单扣费3!G:G,藤桥应收余额!G:G)-4");
-            row.CreateCell(5).SetCellFormula("SUM(藤桥运单扣费1!D:D,藤桥运单扣费2!D:D,藤桥运单扣费3!D:D,藤桥应收余额!D:D)");
+            row.CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费1!G:G,藤桥运单扣费2!G:G,藤桥运单扣费3!G:G)-3");
+            row.CreateCell(5).SetCellFormula("SUM(藤桥运单扣费1!D:D,藤桥运单扣费2!D:D,藤桥运单扣费3!D:D)");
             row.CreateCell(6).SetCellFormula("COUNTA(未分类站点!G:G)-1");
             row.CreateCell(7).SetCellFormula("SUM(未分类站点!D:D)");
             row.CreateCell(8).SetCellFormula("E3+G3");
@@ -171,8 +171,8 @@ namespace _800Best.ExcelHelpDAL
             row.CreateCell(11).SetCellFormula("ROUND(K3-J3,2)");
             row = sheet.CreateRow(3);
             row.CreateCell(3).SetCellValue("集包扣费");
-            row.CreateCell(4).SetCellFormula("COUNTA(藤桥集包!C:C,藤桥集包003!C:C)-2");
-            row.CreateCell(5).SetCellFormula("SUM(藤桥集包!D:D,藤桥集包003!D:D)");
+            row.CreateCell(4).SetCellFormula("COUNTA(藤桥集包!C:C)-1");
+            row.CreateCell(5).SetCellFormula("SUM(藤桥集包!D:D)");
             row.CreateCell(8).SetCellFormula("E4+G4");
             row.CreateCell(9).SetCellFormula("F4+H4");
             row = sheet.CreateRow(4);
@@ -186,27 +186,26 @@ namespace _800Best.ExcelHelpDAL
             row = sheet.CreateRow(6);
             row.CreateCell(3).SetCellValue("1.代集包费3KG以下0.35，3KG以上0.1*重量，取两位小数");
             row = sheet.CreateRow(7);
-            row.CreateCell(3).SetCellValue("2.003站点代集包费关联集包数据，有集包数据则扣费，无集包数据不扣费");
+            row.CreateCell(3).SetCellValue("2.003站点代集包费不收集包费");
             row = sheet.CreateRow(8);
-            row.CreateCell(3).SetCellValue("3.系统扣费中关联到派件单号的和应收余额的，做到温州藤桥一部");
+            row.CreateCell(3).SetCellValue("3.系统扣费中先关联S9数据，分配到归属站点先，分配不到归属站点再关联派件数据，做到温州藤桥一部，其余做到未分类站点，关联发放网点");
             row = sheet.CreateRow(9);
             row.CreateCell(3).SetCellValue("4.网络资讯服务费做到温州藤桥分部001");
             row = sheet.CreateRow(10);
             row.CreateCell(3).SetCellValue("5.付有偿派费→派件费");
             row.CreateCell(9).SetCellValue(DateTime.Today.AddDays(-1.0).ToShortDateString());
             sheet.CreateRow(12).CreateCell(3).SetCellValue("分批上传");
-            sheet.CreateRow(12).CreateCell(4).SetCellValue("上传数量");
-            sheet.CreateRow(12).CreateCell(5).SetCellValue("上传金额");
+            sheet.GetRow(12).CreateCell(4).SetCellValue("上传数量");
+            sheet.GetRow(12).CreateCell(5).SetCellValue("上传金额");
             sheet.CreateRow(13).CreateCell(3).SetCellValue("第一批");
-            sheet.CreateRow(13).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费1!G:G)-1");
-            sheet.CreateRow(13).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费1!D:D)");
+            sheet.GetRow(13).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费1!G:G)-1");
+            sheet.GetRow(13).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费1!D:D)");
             sheet.CreateRow(14).CreateCell(3).SetCellValue("第二批");
-            sheet.CreateRow(14).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费2!G:G)-1");
-            sheet.CreateRow(14).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费2!D:D)");
+            sheet.GetRow(14).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费2!G:G)-1");
+            sheet.GetRow(14).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费2!D:D)");
             sheet.CreateRow(15).CreateCell(3).SetCellValue("第三批");
-            sheet.CreateRow(15).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费3!G:G,藤桥应收余额!G:G,藤桥集包!C:C,藤桥集包003!C:C)-4");
-            sheet.CreateRow(15).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费3!D:D,藤桥应收余额!D:D,藤桥集包!D:D,藤桥集包003!D:D)");
-
+            sheet.GetRow(15).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费3!G:G,藤桥集包!C:C)-2");
+            sheet.GetRow(15).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费3!D:D,藤桥集包!D:D)");
 
             return sheet;
         }
