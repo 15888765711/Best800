@@ -162,8 +162,8 @@ namespace _800Best.ExcelHelpDAL
             row.CreateCell(11).SetCellValue("差异");
             row = sheet.CreateRow(2);
             row.CreateCell(3).SetCellValue("系统扣费");
-            row.CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费1!G:G,藤桥运单扣费2!G:G,藤桥运单扣费3!G:G)-3");
-            row.CreateCell(5).SetCellFormula("SUM(藤桥运单扣费1!D:D,藤桥运单扣费2!D:D,藤桥运单扣费3!D:D)");
+            row.CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费1!G:G,藤桥运单扣费2!G:G,藤桥运单扣费3!G:G,藤桥运单扣费4!G:G)-4");
+            row.CreateCell(5).SetCellFormula("SUM(藤桥运单扣费1!D:D,藤桥运单扣费2!D:D,藤桥运单扣费3!D:D,藤桥运单扣费4!D:D)");
             row.CreateCell(6).SetCellFormula("COUNTA(未分类站点!G:G)-1");
             row.CreateCell(7).SetCellFormula("SUM(未分类站点!D:D)");
             row.CreateCell(8).SetCellFormula("E3+G3");
@@ -204,8 +204,14 @@ namespace _800Best.ExcelHelpDAL
             sheet.GetRow(14).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费2!G:G)-1");
             sheet.GetRow(14).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费2!D:D)");
             sheet.CreateRow(15).CreateCell(3).SetCellValue("第三批");
-            sheet.GetRow(15).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费3!G:G,藤桥集包!C:C)-2");
-            sheet.GetRow(15).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费3!D:D,藤桥集包!D:D)");
+            sheet.GetRow(15).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费3!G:G)-1");
+            sheet.GetRow(15).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费3!D:D)");
+            sheet.CreateRow(16).CreateCell(3).SetCellValue("第四批");
+            sheet.GetRow(16).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费4!G:G,藤桥集包!C:C)-2");
+            sheet.GetRow(16).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费4!D:D,藤桥集包!D:D)");
+            sheet.CreateRow(17).CreateCell(3).SetCellValue("合计：");
+            sheet.GetRow(17).CreateCell(4).SetCellFormula("SUM(E14:E17)");
+            sheet.GetRow(17).CreateCell(5).SetCellFormula("SUM(F14:F17)");
 
             return sheet;
         }

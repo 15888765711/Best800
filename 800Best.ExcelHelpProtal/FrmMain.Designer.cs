@@ -73,6 +73,7 @@
             this.txtPartsPath = new System.Windows.Forms.TextBox();
             this.btnUpLoadParts = new System.Windows.Forms.Button();
             this.btnPartsPath = new System.Windows.Forms.Button();
+            this.btnSearchFrm = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbxSelectBox
@@ -474,6 +475,16 @@
             this.btnPartsPath.UseVisualStyleBackColor = true;
             this.btnPartsPath.Click += new System.EventHandler(this.BtnPartsPath_Click);
             // 
+            // btnSearchFrm
+            // 
+            this.btnSearchFrm.Location = new System.Drawing.Point(19, 399);
+            this.btnSearchFrm.Name = "btnSearchFrm";
+            this.btnSearchFrm.Size = new System.Drawing.Size(75, 23);
+            this.btnSearchFrm.TabIndex = 9;
+            this.btnSearchFrm.Text = "查询窗口";
+            this.btnSearchFrm.UseVisualStyleBackColor = true;
+            this.btnSearchFrm.Click += new System.EventHandler(this.BtnMergeTable_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -505,6 +516,7 @@
             this.Controls.Add(this.txtS9Path);
             this.Controls.Add(this.txtFiled1);
             this.Controls.Add(this.txtCollectBagPath);
+            this.Controls.Add(this.btnSearchFrm);
             this.Controls.Add(this.btnMergeTable);
             this.Controls.Add(this.txtQ9Path);
             this.Controls.Add(this.txtMergePath);
@@ -579,6 +591,7 @@
         private System.Windows.Forms.TextBox txtPartsPath;
         private System.Windows.Forms.Button btnUpLoadParts;
         private System.Windows.Forms.Button btnPartsPath;
+        private System.Windows.Forms.Button btnSearchFrm;
     }
 }
 
