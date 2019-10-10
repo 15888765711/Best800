@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5dcd781102154673aade490ccb1a16c7" Name="Diagram1">
+        <EntityTypeShape EntityType="Best_ExcelHelpEFModel.Collecbags" Width="1.5" PointX="4.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Best_ExcelHelpEFModel.Cost" Width="1.5" PointX="3.625" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Best_ExcelHelpEFModel.Customer" Width="1.5" PointX="8.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Best_ExcelHelpEFModel.Province" Width="1.5" PointX="11.125" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Best_ExcelHelpEFModel.Tb001" Width="1.5" PointX="7" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="Best_ExcelHelpEFModel.CustomerCost" />
+        <AssociationConnector Association="Best_ExcelHelpEFModel.ProvinceCustomer" />
+        <AssociationConnector Association="Best_ExcelHelpEFModel.Tb001Cost" />
+        <AssociationConnector Association="Best_ExcelHelpEFModel.CollecbagsCost" />
+        <AssociationConnector Association="Best_ExcelHelpEFModel.CustomerCollecbags" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
