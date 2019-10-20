@@ -53,6 +53,7 @@ namespace _800Best.ExcelHelpDAL
                     try
                     {
                         connection.Open();
+                    command.CommandTimeout = 0;
                         reader = command.ExecuteReader(CommandBehavior.CloseConnection);
                     }
                     catch (Exception exception)

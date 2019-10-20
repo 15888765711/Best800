@@ -34,12 +34,12 @@ namespace _800Best.ExcelHelpProtal
                 this.Close();
 
             }
-            string inputStr= Interaction.InputBox("输入密码", "输入密码", "", -1, -1);
-            if (inputStr!="12345")
-            {
-                MessageBox.Show("密码错误");
-                this.Close();
-            }
+            //string inputStr= Interaction.InputBox("输入密码", "输入密码", "", -1, -1);
+            //if (inputStr!="12345")
+            //{
+            //    MessageBox.Show("密码错误");
+            //    this.Close();
+            //}
             //I:\work\百世南白象\S9数据\
             string dateStr = DateTime.Today.AddDays(-1).ToString("MMdd");
             this.txtStartTime.Text = DateTime.Today.AddDays(-1.0).ToShortDateString();
@@ -331,7 +331,7 @@ namespace _800Best.ExcelHelpProtal
         private void BtnUpdateWeight_Click(object sender, EventArgs e)
         {
 
-            int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()));
+            int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim()));
             if (resultRows > 0)
             {
                 lblState.Text += "\r\n重量更新成功,影响行数：" + resultRows;

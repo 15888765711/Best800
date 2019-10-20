@@ -15,43 +15,43 @@ namespace _800Best.ExcelHelpBLL
 {
     public class MyExcelBll
     {
-        
-            private readonly MyExcelDal myDal = new MyExcelDal();
-            private bool isAddFileName;
+
+        private readonly MyExcelDal myDal = new MyExcelDal();
+        private bool isAddFileName;
         /// <summary>
         /// 修改结算类型
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-            public bool ChangeExcel(string fileName)
+        public bool ChangeExcel(string fileName)
+        {
+            try
             {
-                try
+                using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
-                    using (FileStream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                    IWorkbook workbook = WorkbookFactory.Create(stream);
+                    int numberOfSheets = workbook.NumberOfSheets;
+                    for (int i = 0; i < numberOfSheets; i++)
                     {
-                        IWorkbook workbook = WorkbookFactory.Create(stream);
-                        int numberOfSheets = workbook.NumberOfSheets;
-                        for (int i = 0; i < numberOfSheets; i++)
+                        ISheet sheetAt = workbook.GetSheetAt(i);
+                        if (sheetAt.SheetName != "汇总表")
                         {
-                            ISheet sheetAt = workbook.GetSheetAt(i);
-                            if (sheetAt.SheetName != "汇总表")
-                            {
-                                sheetAt = this.myDal.ChangeExcel(sheetAt);
-                            }
+                            sheetAt = this.myDal.ChangeExcel(sheetAt);
                         }
-                        FileStream stream2 = File.Create(fileName);
-                        workbook.Write(stream2);
-                        stream2.Close();
-                        workbook.Close();
                     }
-                    return true;
+                    FileStream stream2 = File.Create(fileName);
+                    workbook.Write(stream2);
+                    stream2.Close();
+                    workbook.Close();
                 }
-                catch (Exception exception)
-                {
-                    MessageBox.Show("打开文件失败；请重新检查路径\r\n" + exception.Message.ToString());
-                    return false;
-                }
+                return true;
             }
+            catch (Exception exception)
+            {
+                MessageBox.Show("打开文件失败；请重新检查路径\r\n" + exception.Message.ToString());
+                return false;
+            }
+        }
         /// <summary>
         /// 获取导出数据（站点修改）
         /// </summary>
@@ -59,31 +59,31 @@ namespace _800Best.ExcelHelpBLL
         /// <param name="starttime"></param>
         /// <param name="endtime"></param>
         /// <returns></returns>
-            public bool GetExportData(string filename, DateTime starttime, DateTime endtime,bool isXinqiao)
-            {
-                IWorkbook workbook = new XSSFWorkbook();
+        public bool GetExportData(string filename, DateTime starttime, DateTime endtime, bool isXinqiao)
+        {
+            IWorkbook workbook = new XSSFWorkbook();
             string[] strArray = null;
             if (isXinqiao)
             {
-                 strArray = new string[] { "藤桥集包", "藤桥运单扣费1", "藤桥运单扣费2", "藤桥运单扣费3", "藤桥运单扣费4", "未分类站点", "汇总表" };
+                strArray = new string[] { "藤桥集包", "藤桥运单扣费1", "藤桥运单扣费2", "藤桥运单扣费3", "藤桥运单扣费4", "未分类站点", "汇总表" };
             }
             else
             {
-                 strArray = new string[] { "运单扣费", "001运单扣费", "取消上传", "包号扣费", "非匹配数据", "刷单扣费", "集包收费", "001集包收费", "集包费取消", "应收余额数据", "包号费", "汇总表" };
+                strArray = new string[] { "运单扣费", "001运单扣费", "取消上传", "包号扣费", "非匹配数据", "刷单扣费", "集包收费", "001集包收费", "集包费取消", "应收余额数据", "包号费", "汇总表" };
             }
-        
+
             //
-                int length = strArray.Length;
-                ISheet[] sheetArray = new ISheet[length];
-                for (int i = 0; i < (length - 1); i++)
-                {
-                    sheetArray[i] = workbook.CreateSheet(strArray[i]);
-                }
-                for (int j = 0; j < (length - 1); j++)
-                {
-                    string sqlStr = this.GetSqlStr(strArray[j]);
-                    sheetArray[j] = this.myDal.GetSheet(sheetArray[j], sqlStr, starttime, endtime);
-                }
+            int length = strArray.Length;
+            ISheet[] sheetArray = new ISheet[length];
+            for (int i = 0; i < (length - 1); i++)
+            {
+                sheetArray[i] = workbook.CreateSheet(strArray[i]);
+            }
+            for (int j = 0; j < (length - 1); j++)
+            {
+                string sqlStr = this.GetSqlStr(strArray[j]);
+                sheetArray[j] = this.myDal.GetSheet(sheetArray[j], sqlStr, starttime, endtime);
+            }
             sheetArray[length - 1] = workbook.CreateSheet(strArray[length - 1]);
             if (isXinqiao)
             {
@@ -91,181 +91,145 @@ namespace _800Best.ExcelHelpBLL
             }
             else
             {
-               
+
                 sheetArray[length - 1] = this.myDal.GetSummarySheet(sheetArray[length - 1]);
             }
-                
-                workbook.Write(File.OpenWrite(filename));
-                workbook.Close();
-                return true;
-            }
+
+            workbook.Write(File.OpenWrite(filename));
+            workbook.Close();
+            return true;
+        }
         /// <summary>
         /// 获取sql语句
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-            private string GetSqlStr(string sql)
+        private string GetSqlStr(string sql)
+        {
+            string s = sql;
+            if (s != null)
             {
-                string s = sql;
-                if (s != null)
+                switch (s)
                 {
-                    switch (s)
-                    {
-                    case "藤桥集包":return "SELECT   ID AS 运单编号, Site AS 开户站点, '代转件费' as 结算类型,case when Weight<= 3 then - 0.35 when Weight> 3 then round(Weight*-0.1,2) end as 结算金额,'' as 备注,Weight AS 重量, Address1 AS 地址 FROM      dbo.Customer where  date >= @starttime and date<@endtime AND site<>'温州藤桥分部003'";
-                    case "藤桥集包003":return "SELECT   t1.ID AS 运单编号, t1.Site AS 开户站点, '代转件费' as 结算类型,case when t1.Weight <= 3 then - 0.35 when t1.Weight > 3 then round(t1.Weight*-0.1,2) end as 结算金额,'' as 备注,t1.Weight AS 重量, Address1 AS 地址 FROM   dbo.Customer t1 left join Collecbags t2 on t1.ID = t2.ID where date >= @starttime and date<@endtime AND t1.site= '温州藤桥分部003' AND t2.ID is not null";
+                    case "藤桥集包": return "pro_CollectBagIncome4TQ";
+                    case "藤桥集包003": return "pro_CollectBag003Income4TQ";
                     case "藤桥运单扣费1":
-                        return "select * from (SELECT   t1.CostID AS 运单编号, case when t2.id is null then '温州藤桥一部' else t2.Site end  AS 开户站点, t1.CostType AS 结算类型,     t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量,  t4.Site AS 面单发放网点,ROW_NUMBER() over(order by t1.costtime asc) as 序号 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN  dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) and(t2.ID is not null or t3.ID is not null)  group by t1.CostID,t2.Site,t2.ID,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site) t5 where t5.序号 <= 50000";
+                        return "pro_CustomerAndPartsIDCost1";
                     case "藤桥运单扣费2":
-                        return "select * from (SELECT   t1.CostID AS 运单编号, case when t2.id is null then '温州藤桥一部' else t2.Site end  AS 开户站点, t1.CostType AS 结算类型,     t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量,  t4.Site AS 面单发放网点,ROW_NUMBER() over(order by t1.costtime asc) as 序号 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN  dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) and(t2.ID is not null or t3.ID is not null)  group by t1.CostID,t2.Site,t2.ID,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site) t5 where t5.序号 > 50000  AND t5.序号 <= 100000";
+                        return "pro_CustomerAndPartsIDCost2";
                     case "藤桥运单扣费3":
-                        return "select * from (SELECT   t1.CostID AS 运单编号, case when t2.id is null then '温州藤桥一部' else t2.Site end  AS 开户站点, t1.CostType AS 结算类型,     t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量,  t4.Site AS 面单发放网点,ROW_NUMBER() over(order by t1.costtime asc) as 序号 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN  dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) and(t2.ID is not null or t3.ID is not null)  group by t1.CostID,t2.Site,t2.ID,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site) t5 where  t5.序号 > 100000 and t5.序号 <= 150000";
+                        return "pro_CustomerAndPartsIDCost3";
                     case "藤桥运单扣费4":
-                        return "select * from (SELECT   t1.CostID AS 运单编号, case when t2.id is null then '温州藤桥一部' else t2.Site end  AS 开户站点, t1.CostType AS 结算类型,     t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量,  t4.Site AS 面单发放网点,ROW_NUMBER() over(order by t1.costtime asc) as 序号 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN  dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) and(t2.ID is not null or t3.ID is not null)  group by t1.CostID,t2.Site,t2.ID,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site) t5 where  t5.序号 > 150000";
+                        return "pro_CustomerAndPartsIDCost4";
                     case "未分类站点":
-                        return "SELECT t1.CostID AS 运单编号, t2.Site AS 开户站点, t1.CostType AS 结算类型, t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量, t4.Site AS 面单发放网点 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) and t2.ID is null and t3.ID is null     group by t1.CostID,t2.Site,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site";
-                        case "包号费":
-
-                            return "SELECT t1.CostID as '运单编号', '温州瓯海茶山二部' AS 开户站点, t1.CostType as '结算类型', t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostNum as '结算流水号' FROM dbo.cost t1  WHERE(t1.CostTime >= @starttime) AND(t1.CostType ='包号费' or t1.CostType ='代付进港集包费' or t1.CostType ='走件费' or t1.CostType ='存款' ) AND(t1.CostAmountType = '可用余额') and(t1.CostTime < @endtime) GROUP BY t1.CostID, t1.CostType, t1.CostAmount, t1.CostNum, t1.CostTime";
-                    case "藤桥应收余额":
-                        return "select * from (SELECT   t1.CostID AS 运单编号, '温州藤桥一部' AS 开户站点, t1.CostType AS 结算类型, t1.CostAmount AS 结算金额, t1.CostTime AS 备注, t1.CostAmountType AS 入账类型,      t1.CostNum AS 结算流水号, t3.ID AS 派件单号, t2.Weight AS 重量,   t4.Site AS 面单发放网点,ROW_NUMBER() over(order by t1.costtime asc) as 序号 FROM dbo.Cost t1 LEFT OUTER JOIN   dbo.Customer t2 ON t1.CostID = t2.ID LEFT OUTER JOIN  dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN   dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime)   and t1.CostAmountType = '应收余额' group by t1.CostID,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site) t5 ";
-
-                        case "刷单扣费":
-
-                            return "SELECT  '' AS 运单编号, '温州瓯海茶山二部' AS 开户站点,t2.CostType as '结算类型' , ROUND(SUM(t2.CostAmount),2) AS 结算金额,  '刷单' AS 备注 FROM  dbo.customer t1 INNER JOIN   dbo.cost t2 ON t1.ID = t2.CostID WHERE   (t2.CostTime >= @starttime) and (t2.CostTime < @endtime) AND (t2.CostAmountType = '可用余额') AND (t1.Site='刷单') Group by  t2.CostType";
-                        
-                        case "001运单扣费":
-
-                            return "SELECT  t2.CostID AS 运单编号, t1.Site AS 开户站点,t2.CostType as '结算类型', t2.CostAmount AS 结算金额,t2.CostTime AS 备注, t2.CostNum as '结算流水号', t1.Weight as '重量',LEFT(Address1,2) AS 地区 FROM  dbo.customer t1 INNER JOIN   dbo.cost t2 ON t1.ID = t2.CostID WHERE   (t2.CostTime >= @starttime) and (t2.CostTime < @endtime) AND (t2.CostAmountType = '可用余额')AND (t1.Site!='刷单') AND (t1.Site='温州南白象001') AND (LEFT(Address1,2) IN (SELECT Province.Province FROM Province)  OR t1.Weight>3)";
-                        
-
-                        case "001集包收费":
-
-                            return "SELECT   ID AS 运单编号, Site AS 开户站点, '代转件费' AS 结算类型,  CASE WHEN LEFT(Address1,2) IN('新疆','西藏','内蒙','宁夏','青海','海南') THEN -ceiling(Weight)  when Weight<=0.5 then 0.1 when Weight<=1 then 0 when Weight<=3 then -0.5 ELSE round(Weight * (- 0.1), 2) END AS 结算金额,  Date AS 备注, Weight as '重量',LEFT(Address1,2) AS 地区   FROM  dbo.customer  WHERE (Date >= @starttime) and (Date < @endtime) AND (Site='温州南白象001') ";
-
-                        
-                        case "集包费取消":
-
-                            return "SELECT   t2.CostID AS 运单编号, t1.Site AS 开户站点, '代扣进港集包费取消' AS 结算类型,   -t2.CostAmount AS 结算金额, t2.CostTime AS 备注, t2.CostNum as '结算流水号', t1.Weight as '重量' FROM  dbo.customer  t1 INNER JOIN  dbo.cost t2 ON t1.ID = t2.CostID WHERE   (t2.CostTime >= @starttime) and (t2.CostTime < @endtime) AND (t2.CostType ='代扣进港集包费' ) AND (t2.CostAmountType = '可用余额')";
-                        
-                        case "集包收费":
-
-                            return "SELECT   ID AS 运单编号, Site AS 开户站点,   CASE WHEN Weight > 3 THEN '计重收费' ELSE '代集包费' END AS 结算类型, CASE WHEN Weight > 3 THEN round(Weight * (- 0.1), 2) ELSE - 0.35 END AS 结算金额, Date AS 备注, Weight as '重量',LEFT(Address1,2) AS 地区 FROM  dbo.customer WHERE (Date >= @starttime) and (Date < @endtime) AND (Site!='温州南白象001') AND (Site!='刷单')";
-                        
-                        case "包号扣费":
-
-                            return "SELECT   t1.ID AS 运单编号, t3.Site AS 开户站点, t2.CostType AS 结算类型,CASE t2.CostType WHEN '扫描费' THEN - 0.07 WHEN '寄件派费' THEN - 0.2 WHEN '中转费' THEN t2.CostAmount ELSE 0 END AS 结算金额, t1.BagID AS 备注, t2.CostAmount as '扣费金额', t1.Site as '面单发放网点', CASE t1.Weight WHEN 0 THEN 0.2 ELSE t1.Weight END AS 重量 ,LEFT(t3.Address1,2) AS 地址 FROM dbo.collecbags AS t1 INNER JOIN dbo.cost AS t2 ON t1.BagID = t2.CostID LEFT OUTER JOIN    dbo.customer AS t3 ON t1.ID = t3.ID WHERE(t2.CostTime >= @starttime) AND(t2.CostType <> '包号费') AND(t2.CostAmountType = '可用余额') and (t2.CostTime < @endtime) GROUP BY t1.BagID, t1.ID, t2.CostAmount, t2.CostType, t1.Weight, t1.Site, t3.Site, LEFT(t3.Address1,2)";
-
-                        
-                        case "非匹配数据":
-
-                            return "SELECT   t2.CostID AS 运单编号, '温州瓯海茶山二部' AS 开户站点, t2.CostType AS 结算类型, t2.CostAmount AS 结算金额,  t2.CostTime AS 备注, t2.CostNum as '结算流水号',t3.Site as '面单发放网点' FROM dbo.cost t2 LEFT OUTER JOIN dbo.allId t1 ON t2.CostID = t1.ID LEFT OUTER JOIN collecbags t3 on t2.CostID=t3.ID  WHERE   (t2.CostTime >= @starttime) and (t2.CostTime < @endtime) AND (t1.ID IS NULL) AND (t2.CostAmountType = '可用余额') AND(t2.CostType!='代付进港集包费') AND(t2.CostType!='包号费') AND(t2.CostType!='走件费') AND(t2.CostType!='存款')";
-                        
-                        case "运单扣费":
-
-                            return "SELECT  t2.CostID AS 运单编号, t1.Site AS 开户站点,t2.CostType AS 结算类型, t2.CostAmount AS 结算金额,  t2.CostTime AS 备注, t2.CostNum as '结算流水号', t1.Weight as '重量',LEFT(t1.Address1,2) AS 地区 FROM  dbo.customer t1 INNER JOIN   dbo.cost t2 ON t1.ID = t2.CostID WHERE   (t2.CostTime >= @starttime) and (t2.CostTime < @endtime) AND (t2.CostAmountType = '可用余额')AND (t1.Site!='刷单') AND (t1.Site!='温州南白象001') AND(t2.CostType !='代付进港集包费') ";
-                        
-                        case "应收余额数据":
-
-                            return "SELECT   CostID AS 运单编号, '温州瓯海茶山二部' AS 开户站点, CostType AS 结算类型, CostAmount AS 结算金额, CostTime AS 备注, CostNum as '结算流水号' FROM dbo.cost WHERE   (CostTime >= @starttime) and (CostTime < @endtime) AND (CostAmountType = '应收余额')";
-                        //ok
-                        case "取消上传":
-                            return "SELECT  t2.CostID AS 运单编号, case when t2.CostType in ( select  tb001.CostType from tb001) then '温州瓯海鹅湖分部'    else '温州南白象001' end  AS 开户站点,t2.CostType AS 结算类型, t2.CostAmount AS 结算金额,           t2.CostTime AS 备注, t2.CostNum as '结算流水号', '' as 面单发放网点, t1.Weight as '重量',LEFT(Address1,2) AS 地区 FROM  dbo.customer t1 INNER JOIN    dbo.cost t2 ON t1.ID = t2.CostID WHERE   (t2.CostTime >= @starttime) and (t2.CostTime < @endtime) AND (t2.CostAmountType = '可用余额')AND (t1.Site!='刷单') AND (t1.Site='温州南白象001') AND (LEFT(Address1,2) NOT IN (SELECT Province.Province FROM Province) OR LEFT(Address1,2)  IS NULL)  AND (t1.Weight<=3)";
-                        default:
-                            return null;
+                        return "pro_NoMatchData";
+                 
+                    case "包号费": return "pro_BagCost";
+                    case "刷单扣费": return "pro_ShuadanCost";
+                    case "001运单扣费": return "pro_CustomerIDCost001";
+                    case "001集包收费": return "pro_CollectBagCost001";
+                    case "集包费取消": return "pro_CollectBagCostCancel";
+                    case "集包收费": return "pro_CollectBagCost";
+                    case "包号扣费": return "pro_SelectBagCost";
+                    case "非匹配数据": return "pro_NoMatchCost";
+                    case "运单扣费": return "pro_CustomerIDCost";
+                    case "应收余额数据": return "pro_SelectYingshou";
+                    case "取消上传": return "pro_CancelUpdate";
+                    default: return null;
 
 
-                    }
                 }
-                return null;
             }
+            return null;
+        }
         /// <summary>
         /// 把list转换成几行的字符串
         /// </summary>
         /// <param name="failedFileNames"></param>
         /// <returns></returns>
-            private string ListtoString(List<string> failedFileNames)
+        private string ListtoString(List<string> failedFileNames)
+        {
+            string str = null;
+            foreach (string str2 in failedFileNames)
             {
-                string str = null;
-                foreach (string str2 in failedFileNames)
-                {
-                    str = str + str2 + "\r\n";
-                }
-                return str;
+                str = str + str2 + "\r\n";
             }
+            return str;
+        }
         /// <summary>
         /// 合并单元格bll逻辑
         //// </summary>
         /// <param name="myExcel"></param>
         /// <param name="souceFileNames"></param>
-            public void MergeExcel(MyExcel myExcel, List<string> souceFileNames)
+        public void MergeExcel(MyExcel myExcel, List<string> souceFileNames)
+        {
+            this.isAddFileName = true;
+            IWorkbook workbook = new XSSFWorkbook();
+            ISheet mySheet = workbook.CreateSheet("承包区");
+            List<string> failedFileNames = new List<string>();
+            foreach (string str in souceFileNames)
             {
-                this.isAddFileName = true;
-                IWorkbook workbook = new XSSFWorkbook();
-                ISheet mySheet = workbook.CreateSheet("承包区");
-                List<string> failedFileNames = new List<string>();
-                foreach (string str in souceFileNames)
+                mySheet = this.myDal.MergeExcel(myExcel, mySheet, str, this.isAddFileName);
+                if (mySheet == null)
                 {
-                    mySheet = this.myDal.MergeExcel(myExcel, mySheet, str, this.isAddFileName);
-                    if (mySheet == null)
-                    {
-                        failedFileNames.Add(str);
-                    }
-                    if (this.isAddFileName)
-                    {
-                        this.isAddFileName = false;
-                    }
-                    myExcel.CurrentRow = mySheet.LastRowNum + 1;
+                    failedFileNames.Add(str);
                 }
-                workbook.Write(File.Create(myExcel.SaveFile));
-                workbook.Close();
-                MessageBox.Show($"成功复制{souceFileNames.Count - failedFileNames.Count}个表，\r\n失败{ failedFileNames.Count}个表,\r\n失败表名为{ this.ListtoString(failedFileNames)}");
+                if (this.isAddFileName)
+                {
+                    this.isAddFileName = false;
+                }
+                myExcel.CurrentRow = mySheet.LastRowNum + 1;
             }
+            workbook.Write(File.Create(myExcel.SaveFile));
+            workbook.Close();
+            MessageBox.Show($"成功复制{souceFileNames.Count - failedFileNames.Count}个表，\r\n失败{ failedFileNames.Count}个表,\r\n失败表名为{ this.ListtoString(failedFileNames)}");
+        }
         /// <summary>
         /// 更新重量
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public int UpdateData(DateTime dateTime)
+        public int UpdateData(DateTime startTime, DateTime endTime)
         {
-          return  myDal.UpdateData(dateTime) ;
-         }
-        
+            return myDal.UpdateData(startTime, endTime);
+        }
+
         /// <summary>
         /// 上传集包
         /// </summary>
         /// <param name="upLoadFiles"></param>
         /// <returns></returns>
-            public int UpLoadCollectBagToDataBase(string upLoadFiles)
+        public int UpLoadCollectBagToDataBase(string upLoadFiles)
+        {
+            if (File.Exists(upLoadFiles))
             {
-                if (File.Exists(upLoadFiles))
+                List<CollectPackBag> collectList = MyExcelHelper.GetCollectList(upLoadFiles);
+                if (collectList == null)
                 {
-                    List<CollectPackBag> collectList = MyExcelHelper.GetCollectList(upLoadFiles);
-                    if (collectList == null)
-                    {
-                        return 0;
-                    }
-                    return this.myDal.UploadCollectBagtoDataBase(collectList);
+                    return 0;
                 }
-                return 0;
+                return this.myDal.UploadCollectBagtoDataBase(collectList);
             }
+            return 0;
+        }
         /// <summary>
         /// 上传s9
         /// </summary>
         /// <param name="upLoadFiles"></param>
         /// <returns></returns>
-            public int UpLoadCustomerToDataBase(string upLoadFiles)
+        public int UpLoadCustomerToDataBase(string upLoadFiles)
+        {
+            if (File.Exists(upLoadFiles))
             {
-                if (File.Exists(upLoadFiles))
+                List<Customer> costlist = MyExcelHelper.CustomerList(upLoadFiles);
+                if (costlist == null)
                 {
-                    List<Customer> costlist = MyExcelHelper.CustomerList(upLoadFiles);
-                    if (costlist == null)
-                    {
-                        return 0;
-                    }
-                    return this.myDal.UploadCustomertoDataBase(costlist);
+                    return 0;
                 }
-                return 0;
+                return this.myDal.UploadCustomertoDataBase(costlist);
             }
+            return 0;
+        }
         /// <summary>
         /// 上传派件
         /// </summary>
@@ -289,21 +253,21 @@ namespace _800Best.ExcelHelpBLL
         /// </summary>
         /// <param name="upLoadFiles"></param>
         /// <returns></returns>
-            public int UpLoadToDataBase(string upLoadFiles)
+        public int UpLoadToDataBase(string upLoadFiles)
+        {
+            if (File.Exists(upLoadFiles))//判断是否存在
             {
-                if (File.Exists(upLoadFiles))//判断是否存在
+                List<Cost> costList = MyExcelHelper.GetCostList(upLoadFiles);
+                if (costList == null)
                 {
-                    List<Cost> costList = MyExcelHelper.GetCostList(upLoadFiles);
-                    if (costList == null)
-                    {
-                        return 0;
-                    }
-                    return this.myDal.UploadCosttoDataBase(costList);
+                    return 0;
                 }
-                return 0;
+                return this.myDal.UploadCosttoDataBase(costList);
             }
+            return 0;
         }
     }
+}
 
 
 

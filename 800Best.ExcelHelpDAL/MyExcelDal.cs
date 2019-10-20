@@ -69,37 +69,37 @@ namespace _800Best.ExcelHelpDAL
                 {
 
                     case "寄件派费":
-                        if (numericCellValue > 0.0)
+                        if (numericCellValue > 0)
                         { cell.SetCellValue("寄件派费调整"); }
                         break;
                     case "付有偿派费": cell.SetCellValue("派件费");break;
                     case "代转件费":
-                        if (numericCellValue > 0.0)
+                        if (numericCellValue > 0)
                         {
                             cell.SetCellValue("代转件费调整");
                         }
                         break;
                     case "中转费调整":
-                        if (numericCellValue > 0.0)
+                        if (numericCellValue > 0)
                         {
                             cell.SetCellValue("中转费取消");
                         }
                         break;
                     case "派件派费":
-                        if (numericCellValue > 0.0)
+                        if (numericCellValue > 0)
                         {
                             cell.SetCellValue("派件派费调整");
                         }
                         break;
                     case "网点派件派费-赋能":
-                        if (numericCellValue > 0.0)
+                        if (numericCellValue > 0)
                         {
                             cell.SetCellValue("网点派件派费-赋能调整");
                         }
                         break;
                     //派件派费
                     case "计重收费调整":
-                        if (numericCellValue < 0.0)
+                        if (numericCellValue < 0)
                         {
                             cell.SetCellValue("计重收费");
                         }
@@ -108,7 +108,7 @@ namespace _800Best.ExcelHelpDAL
                         cell.SetCellValue("航空违禁品罚款");
                         break;
                     case "扣有偿中转调整":
-                        if (numericCellValue > 0.0)
+                        if (numericCellValue > 0)
                         {
                             cell.SetCellValue("扣有偿中转取消");
                         }
@@ -123,10 +123,18 @@ namespace _800Best.ExcelHelpDAL
                         cell.SetCellValue("大货费");
                         break;
                     case "大货手续费":
-                        if (numericCellValue > 0.0)
+                        if (numericCellValue > 0)
                         {
                             cell.SetCellValue("大货费调整");
                         }
+                        break;
+                    case "中转费-应集未集":
+
+                        cell.SetCellValue("应集未集补收罚款");
+                        break;
+                    case "中转费-应集未集调整":
+
+                        cell.SetCellValue("应集未集补收罚款调整");
                         break;
                     case "错集率罚款":
                     case "短信服务费":
@@ -136,6 +144,7 @@ namespace _800Best.ExcelHelpDAL
                     case "我要寄百世爽约率考核罚款":
                     case "计重收费返款":
                     case "激励政策返款":
+                    case "环保袋使用费":
                         //计重收费返款
                         //我要寄百世爽约率考核罚款
                         if (cell.Row.GetCell(0) != null)
@@ -276,8 +285,13 @@ namespace _800Best.ExcelHelpDAL
         /// <returns></returns>
         public ISheet GetSheet(ISheet sheet, string sqlstr, DateTime starttime, DateTime endtime)
         {
+            SqlDataReader reader;
             SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@starttime", starttime), new SqlParameter("@endtime", endtime) };
-            SqlDataReader reader = SqlHelper.ExecuteReader(sqlstr, CommandType.Text, sp);
+         
+                reader=SqlHelper.ExecuteReader(sqlstr, CommandType.StoredProcedure, sp);
+         
+        
+           
             IRow row = sheet.CreateRow(0);
             for (int i = 0; i < reader.FieldCount; i++)
             {
@@ -475,15 +489,13 @@ namespace _800Best.ExcelHelpDAL
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public int UpdateData(DateTime dateTime)
+        public int UpdateData(DateTime startTime, DateTime endTime)
         {
             string sql = "pro_checkHeight";
-            SqlParameter[] sp = new SqlParameter[1];
-            SqlParameter parameter1 = new SqlParameter("@starttime", SqlDbType.DateTime)
-            {
-                Value = dateTime
-            };
-            sp[0] = parameter1;
+            SqlParameter[] sp = new SqlParameter[]
+            { new SqlParameter("@starttime", SqlDbType.DateTime) { Value=startTime},
+                new SqlParameter("@endtime", SqlDbType.DateTime) { Value = endTime } };
+
             return SqlHelper.ExecuteNonQuery(sql, CommandType.StoredProcedure, sp);
         }
         /// <summary>
