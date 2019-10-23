@@ -261,23 +261,26 @@ namespace _800Best.ExcelHelpProtal
         {
 
             if (this.txtQ9Path.Text.Trim().Length != 0)
-            { int resultRows = this.bll.UpLoadToDataBase(this.txtQ9Path.Text.Trim());
-                if (resultRows>0)
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(s =>
                 {
-                    lblState.Text += "\r\nQ9数据成功导入" + resultRows + "行";
-                    //MessageBox.Show("Q9数据导入成功");
-                }
-                else
-                {
-                    lblState.Text += "\r\nQ9数据导入失败";
-                    //MessageBox.Show("UI层提示失败");
-                }
+                    int resultRows = this.bll.UpLoadToDataBase(this.txtQ9Path.Text.Trim());
+                    if (resultRows > 0)
+                    {
+                        EditLblStateText("\r\nQ9数据成功导入" + resultRows + "行");
+                        //MessageBox.Show("Q9数据导入成功");
+                    }
+                    else
+                    {
+                        EditLblStateText("\r\nQ9数据导入失败");
+                        //MessageBox.Show("UI层提示失败");
+                    }
+                }));
             }
             else
             {
                 MessageBox.Show("请输入Q9路径");
             }
-
 
         }
 
@@ -285,21 +288,26 @@ namespace _800Best.ExcelHelpProtal
         {
 
             if (this.txtS9Path.Text.Trim().Length != 0)
-            { int resultRows = this.bll.UpLoadCustomerToDataBase(this.txtS9Path.Text.Trim());
-                if (resultRows>0)
-                {
 
-                    lblState.Text += "\r\nS9数据成功导入"+resultRows+"行";
-                }
-                else
-                {
-                    lblState.Text += "\r\nUI层S9提示失败";
-                }
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(s => {
+                    int resultRows = this.bll.UpLoadCustomerToDataBase(this.txtS9Path.Text.Trim());
+                    if (resultRows > 0)
+                    {
+
+                        EditLblStateText("\r\nS9数据成功导入" + resultRows + "行");
+                    }
+                    else
+                    {
+                        EditLblStateText("\r\nUI层S9提示失败");
+                    }
+                }));
             }
             else
             {
                 MessageBox.Show("请输入S9路径");
             }
+
 
 
         }
@@ -308,22 +316,28 @@ namespace _800Best.ExcelHelpProtal
         {
 
             if (this.txtCollectBagPath.Text.Trim().Length != 0)
-            { int resultRows = this.bll.UpLoadCollectBagToDataBase(this.txtCollectBagPath.Text.Trim());
-                if (resultRows>0)
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(s =>
                 {
-                    lblState.Text += "\r\n集包数据成功导入" + resultRows+"行";
-                    //MessageBox.Show("集包数据导入成功");
-                }
-                else
-                {
-                    lblState.Text += "\r\nUI层集包提示失败";
-                    //MessageBox.Show("UI层提示失败");
-                }
+                    int resultRows = this.bll.UpLoadCollectBagToDataBase(this.txtCollectBagPath.Text.Trim());
+                    if (resultRows > 0)
+                    {
+                        EditLblStateText("\r\n集包数据成功导入" + resultRows + "行");
+                        //MessageBox.Show("集包数据导入成功");
+                    }
+                    else
+                    {
+                        EditLblStateText("\r\nUI层集包提示失败");
+                        //MessageBox.Show("UI层提示失败");
+                    }
+                }));
+
             }
             else
             {
                 MessageBox.Show("请输入集包路径");
             }
+
 
 
         }
@@ -339,6 +353,19 @@ namespace _800Best.ExcelHelpProtal
             else
             {
                 lblState.Text += "\r\n重量更新失败";
+            }
+
+
+        }
+        public void EditLblStateText(string str)
+        {
+            if (lblState.InvokeRequired)
+            {
+                lblState.Invoke(new Action<string>(s => { lblState.Text += s; }), str);
+            }
+            else
+            {
+                lblState.Text += str;
             }
 
 
@@ -390,17 +417,21 @@ namespace _800Best.ExcelHelpProtal
         {
             if (this.txtPartsPath.Text.Trim().Length != 0)
             {
-                int resultRows = this.bll.UpLoadPartsToDataBase(this.txtPartsPath.Text.Trim());
-                if (resultRows > 0)
+                ThreadPool.QueueUserWorkItem(new WaitCallback(s =>
                 {
-                    lblState.Text += "\r\n派件数据成功导入" + resultRows + "行";
-                    //MessageBox.Show("集包数据导入成功");
-                }
-                else
-                {
-                    lblState.Text += "\r\nUI层（派件）提示失败";
-                    //MessageBox.Show("UI层提示失败");
-                }
+                    int resultRows = this.bll.UpLoadPartsToDataBase(this.txtPartsPath.Text.Trim());
+                    if (resultRows > 0)
+                    {
+                        EditLblStateText("\r\n派件数据成功导入" + resultRows + "行");
+                        //MessageBox.Show("集包数据导入成功");
+                    }
+                    else
+                    {
+                        EditLblStateText("\r\nUI层（派件）提示失败");
+                        //MessageBox.Show("UI层提示失败");
+                    }
+                }));
+
             }
             else
             {
