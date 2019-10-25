@@ -74,6 +74,7 @@
             this.btnUpLoadParts = new System.Windows.Forms.Button();
             this.btnPartsPath = new System.Windows.Forms.Button();
             this.btnSearchFrm = new System.Windows.Forms.Button();
+            this.txtState = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbxSelectBox
@@ -423,7 +424,7 @@
             // lblState
             // 
             this.lblState.AutoSize = true;
-            this.lblState.Location = new System.Drawing.Point(343, 372);
+            this.lblState.Location = new System.Drawing.Point(295, 366);
             this.lblState.Name = "lblState";
             this.lblState.Size = new System.Drawing.Size(41, 12);
             this.lblState.TabIndex = 25;
@@ -485,11 +486,22 @@
             this.btnSearchFrm.UseVisualStyleBackColor = true;
             this.btnSearchFrm.Click += new System.EventHandler(this.BtnMergeTable_Click);
             // 
+            // txtState
+            // 
+            this.txtState.Enabled = false;
+            this.txtState.Location = new System.Drawing.Point(342, 363);
+            this.txtState.Multiline = true;
+            this.txtState.Name = "txtState";
+            this.txtState.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtState.Size = new System.Drawing.Size(333, 104);
+            this.txtState.TabIndex = 37;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(691, 473);
+            this.ClientSize = new System.Drawing.Size(691, 466);
+            this.Controls.Add(this.txtState);
             this.Controls.Add(this.lblParts);
             this.Controls.Add(this.txtPartsPath);
             this.Controls.Add(this.btnUpLoadParts);
@@ -592,6 +604,7 @@
         private System.Windows.Forms.Button btnUpLoadParts;
         private System.Windows.Forms.Button btnPartsPath;
         private System.Windows.Forms.Button btnSearchFrm;
+        private System.Windows.Forms.TextBox txtState;
     }
 }
 

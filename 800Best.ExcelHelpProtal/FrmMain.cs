@@ -49,36 +49,29 @@ namespace _800Best.ExcelHelpProtal
             this.txtStartRow.Text = "2";
             string xinqiaoStr = ConfigurationManager.ConnectionStrings["IsXinqiao"].ConnectionString;
             //分类站点
+            string strBasePath;
             if (xinqiaoStr== "Xinqiao")
             {
                 isXinqiao = true;
-
+                strBasePath = @"G:\Work\";
             }
             else
             {
                 isXinqiao = false;
+                strBasePath = @"I:\work\";
             }
         
-            if (isXinqiao)
-            {
-                this.txtMergePath.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
-                this.txtQ9Path.Text = String.Format(@"D:\Work\Q9数据\{0}q9.xlsx", dateStr);
-                this.txtCollectBagPath.Text = String.Format(@"D:\Work\集包数据\{0}jb.xlsx", dateStr);
-                this.txtUpLoadTablePath.Text = String.Format(@"D:\Work\上传数据\{0}.xlsx", dateStr);
-                this.txtPartsPath.Text = String.Format(@"D:\Work\派件数据\{0}pj.xlsx", dateStr);
-                this.txtS9Path.Text = String.Format(@"D:\Work\S9数据\{0}\{0}s9.xlsx", dateStr);
+            
+                this.txtMergePath.Text = String.Format(@"{1}S9数据\{0}\{0}s9.xlsx", dateStr,strBasePath);
+                this.txtQ9Path.Text = String.Format(@"{1}Q9数据\{0}q9.xlsx", dateStr, strBasePath);
+                this.txtCollectBagPath.Text = String.Format(@"{1}集包数据\{0}jb.xlsx", dateStr, strBasePath);
+                this.txtUpLoadTablePath.Text = String.Format(@"{1}上传数据\{0}.xlsx", dateStr, strBasePath);
+                this.txtPartsPath.Text = String.Format(@"{1}派件数据\{0}pj.xlsx", dateStr, strBasePath);
+                this.txtS9Path.Text = String.Format(@"{1}S9数据\{0}\{0}s9.xlsx", dateStr, strBasePath);
 
-            }
-            else
-            {
-                this.txtMergePath.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
-                this.txtQ9Path.Text = String.Format(@"I:\work\百世南白象\Q9数据\{0}q9.xlsx", dateStr);
-                this.txtCollectBagPath.Text = String.Format(@"I:\work\百世南白象\集包数据\{0}jb.xlsx", dateStr);
-                this.txtUpLoadTablePath.Text = String.Format(@"I:\work\百世南白象\上传数据\{0}.xlsx", dateStr);
-                this.txtPartsPath.Text = String.Format(@"I:\work\百世南白象\派件数据\{0}pj.xlsx", dateStr);
-                this.txtS9Path.Text = String.Format(@"I:\work\百世南白象\S9数据\{0}\{0}s9.xlsx", dateStr);
+ 
 
-            }
+           
 
 
         }
@@ -267,12 +260,12 @@ namespace _800Best.ExcelHelpProtal
                     int resultRows = this.bll.UpLoadToDataBase(this.txtQ9Path.Text.Trim());
                     if (resultRows > 0)
                     {
-                        EditLblStateText("\r\nQ9数据成功导入" + resultRows + "行");
+                        EditTxtStateText("\r\nQ9数据成功导入" + resultRows + "行");
                         //MessageBox.Show("Q9数据导入成功");
                     }
                     else
                     {
-                        EditLblStateText("\r\nQ9数据导入失败");
+                        EditTxtStateText("\r\nQ9数据导入失败");
                         //MessageBox.Show("UI层提示失败");
                     }
                 }));
@@ -295,11 +288,11 @@ namespace _800Best.ExcelHelpProtal
                     if (resultRows > 0)
                     {
 
-                        EditLblStateText("\r\nS9数据成功导入" + resultRows + "行");
+                        EditTxtStateText("\r\nS9数据成功导入" + resultRows + "行");
                     }
                     else
                     {
-                        EditLblStateText("\r\nUI层S9提示失败");
+                        EditTxtStateText("\r\nUI层S9提示失败");
                     }
                 }));
             }
@@ -317,20 +310,20 @@ namespace _800Best.ExcelHelpProtal
 
             if (this.txtCollectBagPath.Text.Trim().Length != 0)
             {
-                ThreadPool.QueueUserWorkItem(new WaitCallback(s =>
+                ThreadPool.QueueUserWorkItem(new WaitCallback( s=>
                 {
-                    int resultRows = this.bll.UpLoadCollectBagToDataBase(this.txtCollectBagPath.Text.Trim());
+                    int resultRows = this.bll.UpLoadCollectBagToDataBase(s.ToString());
                     if (resultRows > 0)
                     {
-                        EditLblStateText("\r\n集包数据成功导入" + resultRows + "行");
+                        EditTxtStateText("\r\n集包数据成功导入" + resultRows + "行");
                         //MessageBox.Show("集包数据导入成功");
                     }
                     else
                     {
-                        EditLblStateText("\r\nUI层集包提示失败");
+                        EditTxtStateText("\r\nUI层集包提示失败");
                         //MessageBox.Show("UI层提示失败");
                     }
-                }));
+                }), this.txtCollectBagPath.Text.Trim());
 
             }
             else
@@ -344,28 +337,35 @@ namespace _800Best.ExcelHelpProtal
 
         private void BtnUpdateWeight_Click(object sender, EventArgs e)
         {
-
-            int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim()));
-            if (resultRows > 0)
-            {
-                lblState.Text += "\r\n重量更新成功,影响行数：" + resultRows;
-            }
-            else
-            {
-                lblState.Text += "\r\n重量更新失败";
-            }
+            ThreadPool.QueueUserWorkItem(new WaitCallback(
+                s => {
+                    EditTxtStateText("\r\n更新重量中....");
+                    int resultRows = this.bll.UpdateData(DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim()));
+                    if (resultRows > 0)
+                    {
+                        EditTxtStateText("\r\n重量更新成功,影响行数：" + resultRows);
+                    }
+                    else
+                    {
+                        EditTxtStateText("\r\n重量更新失败");
+                    }
+                }
+                
+                
+                ));
+           
 
 
         }
-        public void EditLblStateText(string str)
+        public void EditTxtStateText(string str)
         {
-            if (lblState.InvokeRequired)
+            if (txtState.InvokeRequired)
             {
-                lblState.Invoke(new Action<string>(s => { lblState.Text += s; }), str);
+                txtState.Invoke(new Action<string>(s => { txtState.Text += s; }), str);
             }
             else
             {
-                lblState.Text += str;
+                txtState.Text += str;
             }
 
 
@@ -385,32 +385,42 @@ namespace _800Best.ExcelHelpProtal
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
+            ThreadPool.QueueUserWorkItem(new WaitCallback(s=> {
 
-            if (((this.txtUpLoadTablePath.Text.Trim().Length == 0) || (this.txtEndTime.Text.Trim().Length == 0)) || (this.txtStartTime.Text.Trim().Length == 0))
-            {
-                MessageBox.Show("请检查数据是否完整输入");
-            }
-            else if (this.bll.GetExportData(this.txtUpLoadTablePath.Text.Trim(), DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim()), isXinqiao))
-            {
-                MessageBox.Show("导出成功");
-            }
+                if (((this.txtUpLoadTablePath.Text.Trim().Length == 0) || (this.txtEndTime.Text.Trim().Length == 0)) || (this.txtStartTime.Text.Trim().Length == 0))
+                {
+                    MessageBox.Show("请检查数据是否完整输入");
+                }
+                else if (this.bll.GetExportData(this.txtUpLoadTablePath.Text.Trim(), DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim()), isXinqiao))
+                {
+                    MessageBox.Show("导出成功");
+                }
+
+
+            }));
+  
 
 
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(txtUpLoadTablePath.Text))
-            {
-                MessageBox.Show("请确定修改表格是否存在！");
-                return;
-            }
-            bool isSuccess = this.bll.ChangeExcel(txtUpLoadTablePath.Text);
-            if (isSuccess)
-            {
-                lblState.Text += "\r\n修改数据成功" + DateTime.Now.ToShortTimeString();
+            ThreadPool.QueueUserWorkItem(new WaitCallback(s=> {
 
-            }
+                if (!File.Exists(txtUpLoadTablePath.Text))
+                {
+                    MessageBox.Show("请确定修改表格是否存在！");
+                    return;
+                }
+                bool isSuccess = this.bll.ChangeExcel(txtUpLoadTablePath.Text);
+                if (isSuccess)
+                {
+                    EditTxtStateText("\r\n修改数据成功" + DateTime.Now.ToShortTimeString());
+
+                }
+
+            }));
+           
         }
 
         private void BtnUpLoadParts_Click(object sender, EventArgs e)
@@ -422,12 +432,12 @@ namespace _800Best.ExcelHelpProtal
                     int resultRows = this.bll.UpLoadPartsToDataBase(this.txtPartsPath.Text.Trim());
                     if (resultRows > 0)
                     {
-                        EditLblStateText("\r\n派件数据成功导入" + resultRows + "行");
+                        EditTxtStateText("\r\n派件数据成功导入" + resultRows + "行");
                         //MessageBox.Show("集包数据导入成功");
                     }
                     else
                     {
-                        EditLblStateText("\r\nUI层（派件）提示失败");
+                        EditTxtStateText("\r\nUI层（派件）提示失败");
                         //MessageBox.Show("UI层提示失败");
                     }
                 }));
