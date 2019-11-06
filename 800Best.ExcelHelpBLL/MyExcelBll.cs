@@ -122,7 +122,7 @@ namespace _800Best.ExcelHelpBLL
                     case "藤桥运单扣费4":
                         return "pro_CustomerAndPartsIDCost4";
                     case "未分类站点":
-                        return "pro_NoMatchData";
+                        return " SELECT t1.CostID AS 运单编号, '' AS 开户站点, t1.CostType AS 结算类型, t1.CostAmount AS 结算金额, 1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号,  '' AS 派件单号, 0 AS 重量, t4.Site AS 面单发放网点 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2  ON t1.CostID = t2.ID LEFT OUTER JOIN dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) and t2.ID is null and t3.ID is null group by t1.CostID,t2.Site,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site ";
                  
                     case "包号费": return "pro_BagCost";
                     case "刷单扣费": return "pro_ShuadanCost";

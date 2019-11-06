@@ -20,6 +20,7 @@ namespace _800Best.ExcelHelpProtal
     public partial class FrmMain : Form
     {
         bool isXinqiao = false;
+        int errorCount = 0;
         private readonly MyExcelBll bll = new MyExcelBll();
         public FrmMain()
         {
@@ -58,7 +59,7 @@ namespace _800Best.ExcelHelpProtal
             else
             {
                 isXinqiao = false;
-                strBasePath = @"I:\work\";
+                strBasePath = @"I:\work\百世南白象\";
             }
         
             
@@ -347,7 +348,14 @@ namespace _800Best.ExcelHelpProtal
                     }
                     else
                     {
-                        EditTxtStateText("\r\n重量更新失败");
+                        EditTxtStateText("\r\n重量更新失败,返回值为：" + resultRows);
+                        errorCount++;
+                        if (errorCount<2)
+                        {
+                            EditTxtStateText("\r\n重量更新失败,重试第" + errorCount+"次");
+                            BtnUpdateWeight_Click(sender, e);
+                        }
+                       
                     }
                 }
                 
@@ -385,6 +393,7 @@ namespace _800Best.ExcelHelpProtal
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
+            EditTxtStateText("\r\n导出数据中...    " + DateTime.Now.ToString());
             ThreadPool.QueueUserWorkItem(new WaitCallback(s=> {
 
                 if (((this.txtUpLoadTablePath.Text.Trim().Length == 0) || (this.txtEndTime.Text.Trim().Length == 0)) || (this.txtStartTime.Text.Trim().Length == 0))
@@ -393,7 +402,7 @@ namespace _800Best.ExcelHelpProtal
                 }
                 else if (this.bll.GetExportData(this.txtUpLoadTablePath.Text.Trim(), DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim()), isXinqiao))
                 {
-                    MessageBox.Show("导出成功");
+                    EditTxtStateText("\r\n导出成功     " + DateTime.Now.ToString()) ;
                 }
 
 
@@ -405,6 +414,7 @@ namespace _800Best.ExcelHelpProtal
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
+            EditTxtStateText("\r\n修改表格数据中...   "+ DateTime.Now.ToString());
             ThreadPool.QueueUserWorkItem(new WaitCallback(s=> {
 
                 if (!File.Exists(txtUpLoadTablePath.Text))

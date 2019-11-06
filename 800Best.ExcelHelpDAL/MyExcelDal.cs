@@ -287,8 +287,15 @@ namespace _800Best.ExcelHelpDAL
         {
             SqlDataReader reader;
             SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@starttime", starttime), new SqlParameter("@endtime", endtime) };
-         
-                reader=SqlHelper.ExecuteReader(sqlstr, CommandType.StoredProcedure, sp);
+            if (sheet.SheetName== "未分类站点")
+            {
+                reader = SqlHelper.ExecuteReader(sqlstr, CommandType.Text, sp);
+            }
+            else
+            {
+                reader = SqlHelper.ExecuteReader(sqlstr, CommandType.StoredProcedure, sp);
+            }
+               
          
         
            
@@ -308,17 +315,16 @@ namespace _800Best.ExcelHelpDAL
                         ICell cell = row2.CreateCell(k);
                         if (reader.GetName(k) == "结算金额")
                         {//包号扣费，公式计算
-                            if ((sheet.SheetName == "包号扣费") && ((reader[k - 1].ToString() == "中转费") || (reader[k - 1].ToString() == "中转费调整")))
+                            if ((sheet.SheetName == "包号扣费"))
                             {
-                                string formula = string.Format("ROUND(F{0}/SUMIFS(H:H,C:C,C{0},E:E,E{0})*H{0},2)", j + 1);
-                                cell.SetCellFormula(formula);
+                                cell.SetCellFormula(string.Format("ROUND(F{0}*H{0}/SUMIFS(H:H,J:J,J{0}),2)", j + 1));
                             }
                             else
                             {
                                 cell.SetCellValue(Convert.ToDouble(obj2 ?? "0"));
                             }
                         }
-                        else if ((reader.GetName(k) == "重量") || (reader.GetName(k) == "金额"))
+                        else if ((reader.GetName(k) == "重量") || (reader.GetName(k) == "扣费金额") || (reader.GetName(k) == "金额"))
                         {
                             cell.SetCellValue(Convert.ToDouble(obj2 ==DBNull.Value? "0":obj2));
                         }
@@ -363,12 +369,12 @@ namespace _800Best.ExcelHelpDAL
             row.CreateCell(6).SetCellFormula("COUNTA(运单扣费!C:C)-1");
             row = sheet.CreateRow(6);
             row.CreateCell(4).SetCellValue("包号扣费上传");
-            row.CreateCell(5).SetCellFormula("SUM(包号扣费!D:D)");
-            row.CreateCell(6).SetCellFormula("COUNTA(包号扣费!C:C)-1");
+            //row.CreateCell(5).SetCellFormula("SUM(包号扣费!D:D)");
+            //row.CreateCell(6).SetCellFormula("COUNTA(包号扣费!C:C)-1");
             row = sheet.CreateRow(7);
             row.CreateCell(4).SetCellValue("其他上传扣费");
-            row.CreateCell(5).SetCellFormula("F5-F6-F7");
-            row.CreateCell(6).SetCellFormula("COUNTA('001运单扣费'!C:C,取消上传!C:C,非匹配数据!C:C,刷单扣费!B:B,集包收费!C:C,'001集包收费'!C:C,集包费取消!C:C)-7");
+            row.CreateCell(5).SetCellFormula("SUM('001运单扣费'!D:D,取消上传!D:D,非匹配数据!D:D,刷单扣费!D:D,集包收费!D:D,'001集包收费'!D:D,集包费取消!D:D,包号扣费!D:D)");
+            row.CreateCell(6).SetCellFormula("COUNTA('001运单扣费'!C:C,取消上传!C:C,非匹配数据!C:C,刷单扣费!B:B,集包收费!C:C,'001集包收费'!C:C,集包费取消!C:C,包号扣费!C:C)-8");
             row = sheet.CreateRow(8);
             row.CreateCell(4).SetCellValue("合计");
             row.CreateCell(5).SetCellFormula("SUM(F6:F8)");
@@ -492,11 +498,23 @@ namespace _800Best.ExcelHelpDAL
         public int UpdateData(DateTime startTime, DateTime endTime)
         {
             string sql = "pro_checkHeight";
-            SqlParameter[] sp = new SqlParameter[]
-            { new SqlParameter("@starttime", SqlDbType.DateTime) { Value=startTime},
-                new SqlParameter("@endtime", SqlDbType.DateTime) { Value = endTime } };
 
-            return SqlHelper.ExecuteNonQuery(sql, CommandType.StoredProcedure, sp);
+            SqlParameter[] sp = new SqlParameter[]
+           { new SqlParameter("@starttime", SqlDbType.DateTime) { Value=startTime},
+                new SqlParameter("@endtime", SqlDbType.DateTime) { Value = endTime } };
+            try
+            {//不知道什么原因，第一次执行就是连接不上数据库，所以返回-1先，后边再次执行
+                return SqlHelper.ExecuteNonQuery(sql, CommandType.StoredProcedure, sp);
+
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+           
+           
+
+           
         }
         /// <summary>
         /// 集包数据上传

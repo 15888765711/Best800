@@ -488,7 +488,6 @@
             // 
             // txtState
             // 
-            this.txtState.Enabled = false;
             this.txtState.Location = new System.Drawing.Point(342, 363);
             this.txtState.Multiline = true;
             this.txtState.Name = "txtState";
