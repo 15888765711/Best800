@@ -287,18 +287,16 @@ namespace _800Best.ExcelHelpDAL
         {
             SqlDataReader reader;
             SqlParameter[] sp = new SqlParameter[] { new SqlParameter("@starttime", starttime), new SqlParameter("@endtime", endtime) };
+            CommandType commandType = CommandType.StoredProcedure;
+           
             if (sheet.SheetName== "未分类站点")
             {
-                reader = SqlHelper.ExecuteReader(sqlstr, CommandType.Text, sp);
+                commandType = CommandType.Text;
             }
-            else
-            {
-                reader = SqlHelper.ExecuteReader(sqlstr, CommandType.StoredProcedure, sp);
-            }
-               
-         
-        
-           
+
+
+            reader = SqlHelper.ExecuteReader(sqlstr, commandType, sp);
+
             IRow row = sheet.CreateRow(0);
             for (int i = 0; i < reader.FieldCount; i++)
             {
