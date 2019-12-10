@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -65,7 +66,7 @@ namespace _800Best.ExcelHelpBLL
             string[] strArray = null;
             if (isXinqiao)
             {
-                strArray = new string[] { "藤桥集包", "藤桥运单扣费1", "藤桥运单扣费2", "藤桥运单扣费3", "藤桥运单扣费4", "未分类站点", "汇总表" };
+                strArray = new string[] { "藤桥集包", "藤桥运单扣费1", "藤桥运单扣费2", "藤桥运单扣费3", "藤桥运单扣费4", "藤桥运单扣费5", "藤桥运单扣费6", "未分类站点", "汇总表" };
             }
             else
             {
@@ -121,6 +122,10 @@ namespace _800Best.ExcelHelpBLL
                         return "pro_CustomerAndPartsIDCost3";
                     case "藤桥运单扣费4":
                         return "pro_CustomerAndPartsIDCost4";
+                    case "藤桥运单扣费5":
+                        return "pro_CustomerAndPartsIDCost5";
+                    case "藤桥运单扣费6":
+                        return "pro_CustomerAndPartsIDCost6";
                     case "未分类站点":
                         return " SELECT t1.CostID AS 运单编号, '' AS 开户站点, t1.CostType AS 结算类型, t1.CostAmount AS 结算金额, 1.CostTime AS 备注, t1.CostAmountType AS 入账类型, t1.CostNum AS 结算流水号,  '' AS 派件单号, 0 AS 重量, t4.Site AS 面单发放网点 FROM dbo.Cost t1 LEFT OUTER JOIN dbo.Customer t2  ON t1.CostID = t2.ID LEFT OUTER JOIN dbo.Parts t3 ON t1.CostID = t3.ID LEFT OUTER JOIN dbo.Collecbags t4 ON t1.CostID = t4.ID WHERE(t1.CostTime >= @starttime) AND(t1.CostTime < @endtime) and t2.ID is null and t3.ID is null group by t1.CostID,t2.Site,t1.CostType,t1.CostAmount,t1.CostTime,t1.CostAmountType,t1.CostNum,t3.ID,t2.Weight,t4.Site ";
                  
@@ -163,32 +168,53 @@ namespace _800Best.ExcelHelpBLL
         /// <param name="souceFileNames"></param>
         public void MergeExcel(MyExcel myExcel, List<string> souceFileNames)
         {
+            
+            MyExcel myExcel2 = new MyExcel
+            {
+                SouceStartRow = 2,
+                LastRowOffset = 0,
+                SaveFile = myExcel.SaveFile,
+                AddFileNames = myExcel.AddFileNames
+            };
+            string pattern = @"未客户发放";
             this.isAddFileName = true;
             IWorkbook workbook = new XSSFWorkbook();
             ISheet mySheet = workbook.CreateSheet("承包区");
+            
             List<string> failedFileNames = new List<string>();
             foreach (string str in souceFileNames)
             {
-                mySheet = this.myDal.MergeExcel(myExcel, mySheet, str, this.isAddFileName);
-                if (mySheet == null)
+                if (Regex.IsMatch(str, pattern))
                 {
-                    failedFileNames.Add(str);
+                    ISheet mySheet2 = workbook.CreateSheet("未客户发放");
+                    this.isAddFileName = true;
+                    mySheet2 = this.myDal.MergeExcel(myExcel2, mySheet2, str, this.isAddFileName);
+                    
                 }
-                if (this.isAddFileName)
+                else
                 {
-                    this.isAddFileName = false;
+                    mySheet = this.myDal.MergeExcel(myExcel, mySheet, str, this.isAddFileName);
+                    if (mySheet == null)
+                    {
+                        failedFileNames.Add(str);
+                    }
+                    if (this.isAddFileName)
+                    {
+                        this.isAddFileName = false;
+                    }
+                    myExcel.CurrentRow = mySheet.LastRowNum + 1;
+
                 }
-                myExcel.CurrentRow = mySheet.LastRowNum + 1;
+                
+
             }
             workbook.Write(File.Create(myExcel.SaveFile));
             workbook.Close();
+            System.Diagnostics.Process.Start(myExcel.SaveFile);
             MessageBox.Show($"成功复制{souceFileNames.Count - failedFileNames.Count}个表，\r\n失败{ failedFileNames.Count}个表,\r\n失败表名为{ this.ListtoString(failedFileNames)}");
+           
         }
-        /// <summary>
-        /// 更新重量
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
+        
         public int UpdateData(DateTime startTime, DateTime endTime)
         {
             return myDal.UpdateData(startTime, endTime);

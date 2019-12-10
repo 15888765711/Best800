@@ -403,6 +403,7 @@ namespace _800Best.ExcelHelpProtal
                 else if (this.bll.GetExportData(this.txtUpLoadTablePath.Text.Trim(), DateTime.Parse(this.txtStartTime.Text.Trim()), DateTime.Parse(this.txtEndTime.Text.Trim()), isXinqiao))
                 {
                     EditTxtStateText("\r\n导出成功     " + DateTime.Now.ToString()) ;
+                    BtnEdit_Click(sender, e);
                 }
 
 

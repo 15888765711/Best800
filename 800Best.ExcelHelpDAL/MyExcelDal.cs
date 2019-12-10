@@ -50,7 +50,18 @@ namespace _800Best.ExcelHelpDAL
                 for (int j = 1; j <= lastRowNum; j++)
                 {
                     ICell cell = sheet.GetRow(j).GetCell(cellnum);
-                    this.ChangeExcelType(cell, sheet.GetRow(j).GetCell(num4).NumericCellValue);
+                    if (cell.StringCellValue == "集包工厂未有效称重罚款" || cell.StringCellValue == "集包工厂未有效称重罚款调整")
+                    {
+                        if (sheet.GetRow(j).GetCell(1).StringCellValue == "温州藤桥分部004")
+                        {
+                            sheet.GetRow(j).GetCell(1).SetCellValue("温州藤桥分部001");
+                        }
+                    }
+                    else
+                    {
+
+                        this.ChangeExcelType(cell, sheet.GetRow(j).GetCell(num4).NumericCellValue);
+                    }
                 }
             }
             return sheet;
@@ -114,12 +125,21 @@ namespace _800Best.ExcelHelpDAL
                         }
                         break;
                     case "扫描费":
-                        cell.SetCellValue("扫描费调整");
+                        if (numericCellValue < 0)
+                        {
+                            cell.SetCellValue("扫描费调整");
+                        }
+                        else
+                        {
+                            cell.SetCellValue("扫描费取消");
+                        }
+                        
                         break;                   
                     case "保价手续费":
                         cell.SetCellValue("手续费");
                         break;
                     case "批货大货费":
+                    case "中心收大货费调整":
                         cell.SetCellValue("大货费");
                         break;
                     case "大货手续费":
@@ -131,6 +151,10 @@ namespace _800Best.ExcelHelpDAL
                     case "中转费-应集未集":
 
                         cell.SetCellValue("应集未集补收罚款");
+                        break;
+                    case "中转费-计泡":
+
+                        cell.SetCellValue("中转费-计泡调整");
                         break;
                     case "中转费-应集未集调整":
 
@@ -171,8 +195,8 @@ namespace _800Best.ExcelHelpDAL
             row.CreateCell(11).SetCellValue("差异");
             row = sheet.CreateRow(2);
             row.CreateCell(3).SetCellValue("系统扣费");
-            row.CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费1!G:G,藤桥运单扣费2!G:G,藤桥运单扣费3!G:G,藤桥运单扣费4!G:G)-4");
-            row.CreateCell(5).SetCellFormula("SUM(藤桥运单扣费1!D:D,藤桥运单扣费2!D:D,藤桥运单扣费3!D:D,藤桥运单扣费4!D:D)");
+            row.CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费1!G:G,藤桥运单扣费2!G:G,藤桥运单扣费3!G:G,藤桥运单扣费4!G:G,藤桥运单扣费5!G:G,藤桥运单扣费6!G:G)-6");
+            row.CreateCell(5).SetCellFormula("SUM(藤桥运单扣费1!D:D,藤桥运单扣费2!D:D,藤桥运单扣费3!D:D,藤桥运单扣费4!D:D,藤桥运单扣费5!D:D,藤桥运单扣费6!D:D)");
             row.CreateCell(6).SetCellFormula("COUNTA(未分类站点!G:G)-1");
             row.CreateCell(7).SetCellFormula("SUM(未分类站点!D:D)");
             row.CreateCell(8).SetCellFormula("E3+G3");
@@ -216,11 +240,17 @@ namespace _800Best.ExcelHelpDAL
             sheet.GetRow(15).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费3!G:G)-1");
             sheet.GetRow(15).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费3!D:D)");
             sheet.CreateRow(16).CreateCell(3).SetCellValue("第四批");
-            sheet.GetRow(16).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费4!G:G,藤桥集包!C:C)-2");
-            sheet.GetRow(16).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费4!D:D,藤桥集包!D:D)");
-            sheet.CreateRow(17).CreateCell(3).SetCellValue("合计：");
-            sheet.GetRow(17).CreateCell(4).SetCellFormula("SUM(E14:E17)");
-            sheet.GetRow(17).CreateCell(5).SetCellFormula("SUM(F14:F17)");
+            sheet.GetRow(16).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费4!G:G)-1");
+            sheet.GetRow(16).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费4!D:D)");
+            sheet.CreateRow(17).CreateCell(3).SetCellValue("第五批");
+            sheet.GetRow(17).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费5!G:G)-1");
+            sheet.GetRow(17).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费5!D:D)");
+            sheet.CreateRow(18).CreateCell(3).SetCellValue("第六批");
+            sheet.GetRow(18).CreateCell(4).SetCellFormula("COUNTA(藤桥运单扣费6!G:G,藤桥集包!C:C)-2");
+            sheet.GetRow(18).CreateCell(5).SetCellFormula("SUM(藤桥运单扣费6!D:D,藤桥集包!D:D)");
+            sheet.CreateRow(19).CreateCell(3).SetCellValue("合计：");
+            sheet.GetRow(19).CreateCell(4).SetCellFormula("SUM(E14:E19)");
+            sheet.GetRow(19).CreateCell(5).SetCellFormula("SUM(F14:F19)");
 
             return sheet;
         }
@@ -396,6 +426,13 @@ namespace _800Best.ExcelHelpDAL
             int count = myExcel.AddFileNames.Count;
             int num2 = myExcel.AddFileNames.Count;
             int rownum = myExcel.SouceStartRow - 1;
+            string strMaxStartNum = "J";
+            string strEndStartNum = "N";
+            if (mySheet.SheetName=="未客户发放")
+            {
+                strMaxStartNum = "I";
+                strEndStartNum = "M";
+            }
             using (FileStream stream = File.OpenRead(dataSouceFileNames))
             {
                 ISheet sheetAt = WorkbookFactory.Create(stream).GetSheetAt(0);
@@ -438,7 +475,7 @@ namespace _800Best.ExcelHelpDAL
                     if (count > 0)
                     {
                         row2.CreateCell(0).SetCellValue(str);
-                        row2.CreateCell(1).SetCellFormula(string.Format("Max(J{0}:N{0})", myExcel.CurrentRow + 1));
+                        row2.CreateCell(1).SetCellFormula(string.Format("Max({0}{1}:{2}{1})", strMaxStartNum, myExcel.CurrentRow + 1, strEndStartNum));//Max(I{0}:M{0})
                     }
                     for (int j = 0; j < lastCellNum; j++)
                     {
