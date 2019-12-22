@@ -599,7 +599,7 @@ namespace _800Best.ExcelHelpDAL
                 if (model != null)
                 {
                     SqlParameter[] sp = new SqlParameter[]
-                    {    new SqlParameter("@costID", SqlDbType.NVarChar, 50){Value = (model.CostID ==         null) ? ((object)DBNull.Value) : ((object)model.CostID)},
+                    {    new SqlParameter("@costID", SqlDbType.NVarChar, 50){Value = (model.CostID ==  null) ? ((object)DBNull.Value) : ((object)model.CostID)},
                          new SqlParameter("@costtype", SqlDbType.NVarChar, 50){Value = model.CostType},
                          new SqlParameter("@time", SqlDbType.NVarChar, 50){Value = model.CostTime},
                          new SqlParameter("@costnum", SqlDbType.NVarChar, 50){Value = model.CostNum},
@@ -611,6 +611,13 @@ namespace _800Best.ExcelHelpDAL
                     resultRows +=SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sp);
                 }
             }
+            return resultRows;
+        }
+        public int UploadDTCost(DataTable dataTable)
+        {
+            int resultRows = 0;
+            resultRows = SqlHelper.SqlBulkCopyInsert("Cost", dataTable);
+           
             return resultRows;
         }
         /// <summary>

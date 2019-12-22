@@ -369,11 +369,11 @@ namespace _800Best.ExcelHelpProtal
         {
             if (txtState.InvokeRequired)
             {
-                txtState.Invoke(new Action<string>(s => { txtState.Text += s; }), str);
+                txtState.Invoke(new Action<string>(s => { txtState.Text = s+ txtState.Text; }), str);
             }
             else
             {
-                txtState.Text += str;
+                txtState.Text = str+ txtState.Text;
             }
 
 

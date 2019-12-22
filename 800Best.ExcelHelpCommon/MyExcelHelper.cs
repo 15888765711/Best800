@@ -2,6 +2,7 @@
 using NPOI.SS.UserModel;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -147,6 +148,10 @@ namespace _800Best.ExcelHelpCommon
                 for (int j = 1; j <= lastRowNum; j++)
                 {
                     row = sheet.GetRow(j);
+                if (row==null)
+                {
+                    continue;
+                }
                     Customer item = new Customer
                     {
                         Date = DateTime.FromOADate(row.GetCell(numArray[0]).NumericCellValue),
@@ -215,6 +220,51 @@ namespace _800Best.ExcelHelpCommon
             }
             workbook.Close();
             return partsList;
+        }
+
+        public static DataTable GetCostDT(string file, DataTable dtCost)
+        {
+            string[] strArray = new string[] { "运单编号", "结算类型", "结算/上传日期", "结算流水号", "金额", "入账余额", "备注" };
+            IWorkbook workbook = WorkbookFactory.Create(file);//创建工作表
+            ISheet sheetAt = workbook.GetSheetAt(0);//读取第一个工作薄
+            int lastRowNum = sheetAt.LastRowNum;//最后一行
+            int lastCellNum = sheetAt.GetRow(0).LastCellNum;//最后一列
+            IRow row = sheetAt.GetRow(0);//标题行
+            DataRow dataRow = null;
+            int[] numArray = new int[strArray.Length];//字段头位置数组
+            for (int i = 0; i < strArray.Length; i++)
+            {
+                numArray[i] = -1;
+                for (int k = 0; k < lastCellNum; k++)
+                {
+                    if (strArray[i] == row.GetCell(k).StringCellValue)
+                    {
+                        numArray[i] = k;
+                        break;
+                    }
+                }
+                if (numArray[i] == -1)
+                {
+                    return null;
+                }
+            }
+            //循环第二行开始所有行，读取数据
+            for (int j = 1; j <= lastRowNum; j++)
+            {
+                dataRow = dtCost.NewRow();
+                   row = sheetAt.GetRow(j);
+                dataRow["CostID"] = (row.GetCell(numArray[0]) == null) ? null : row.GetCell(numArray[0]).StringCellValue;
+                dataRow["CostType"] = row.GetCell(numArray[1]).StringCellValue;
+                dataRow["CostTime"] = Convert.ToDateTime(row.GetCell(numArray[2]).StringCellValue);
+                dataRow["CostNum"] = row.GetCell(numArray[3]).NumericCellValue.ToString();
+                dataRow["CostAmount"] = row.GetCell(numArray[4]).NumericCellValue;
+                dataRow["CostAmountType"] = row.GetCell(numArray[5]).StringCellValue;
+                dataRow["Remarks"] = (row.GetCell(numArray[6]) == null) ? null : row.GetCell(numArray[6]).StringCellValue;
+                dtCost.Rows.Add(dataRow);
+                
+            }
+            workbook.Close();
+            return dtCost;
         }
     }
     }

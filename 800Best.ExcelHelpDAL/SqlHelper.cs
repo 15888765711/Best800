@@ -102,16 +102,18 @@ namespace _800Best.ExcelHelpDAL
                 return dataTable;
             }
 
-            public static void SqlBulkCopyInsert(string strTableName, DataTable dtData)
+            public static int SqlBulkCopyInsert(string strTableName, DataTable dtData)
             {
                 try
                 {
                     using (SqlBulkCopy copy = new SqlBulkCopy(constr))
-                    {
+                    {   
                         copy.DestinationTableName = strTableName;
                         copy.NotifyAfter = dtData.Rows.Count;
+                        copy.BatchSize = dtData.Rows.Count;
                         copy.WriteToServer(dtData);
                         copy.Close();
+                        return 1;
                     }
                 }
                 catch (Exception exception)

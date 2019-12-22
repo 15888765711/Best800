@@ -5,6 +5,7 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -280,10 +281,23 @@ namespace _800Best.ExcelHelpBLL
         /// <param name="upLoadFiles"></param>
         /// <returns></returns>
         public int UpLoadToDataBase(string upLoadFiles)
-        {
+        {//CostID, Costtype, CostTime, CostNum, CostAmount, CostAmountType, Remarks
+            DataTable dtCost = new DataTable("Cost");
+            dtCost.Columns.AddRange(new DataColumn[] {
+                new DataColumn("CostID",typeof(String)),
+                new DataColumn("Costtype",typeof(String)),
+                new DataColumn("CostTime",typeof(DateTime)),
+                new DataColumn("CostNum",typeof(String)),
+                new DataColumn("CostAmount",typeof(Double)),
+                new DataColumn("CostAmountType",typeof(String)),
+                new DataColumn("Remarks",typeof(String))
+
+
+            });
             if (File.Exists(upLoadFiles))//判断是否存在
             {
                 List<Cost> costList = MyExcelHelper.GetCostList(upLoadFiles);
+                //dtCost = MyExcelHelper.GetCostDT(upLoadFiles,dtCost);
                 if (costList == null)
                 {
                     return 0;

@@ -492,14 +492,14 @@
             this.txtState.Multiline = true;
             this.txtState.Name = "txtState";
             this.txtState.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtState.Size = new System.Drawing.Size(333, 104);
+            this.txtState.Size = new System.Drawing.Size(333, 121);
             this.txtState.TabIndex = 37;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(691, 466);
+            this.ClientSize = new System.Drawing.Size(705, 496);
             this.Controls.Add(this.txtState);
             this.Controls.Add(this.lblParts);
             this.Controls.Add(this.txtPartsPath);
